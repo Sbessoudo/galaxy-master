@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function Header({ user, title }) {
   return (
     <header className="fixed top-0 right-0 left-64 z-40 h-16 flex items-center justify-between px-8"
@@ -27,9 +29,10 @@ export default function Header({ user, title }) {
               {user.full_name || user.email}
             </span>
             {user.avatar_url ? (
-              <img src={user.avatar_url} alt={user.full_name || 'Avatar'}
-                   className="w-8 h-8 rounded-full object-cover"
-                   style={{ boxShadow: '0 0 0 2px var(--color-primary)' }} />
+              <Image src={user.avatar_url} alt={user.full_name || 'Avatar'}
+                     width={32} height={32}
+                     className="rounded-full object-cover"
+                     style={{ boxShadow: '0 0 0 2px var(--color-primary)' }} />
             ) : (
               <div className="w-8 h-8 rounded-full flex items-center justify-center"
                    style={{ background: 'var(--color-primary-container)' }}>

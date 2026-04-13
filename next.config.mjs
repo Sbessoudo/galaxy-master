@@ -8,6 +8,14 @@ const nextConfig = {
   turbopack: {
     root: __dirname,
   },
+  images: {
+    remotePatterns: [
+      // Google OAuth avatars
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
+      // Supabase storage (for uploaded astronaut photos)
+      { protocol: 'https', hostname: '*.supabase.co' },
+    ],
+  },
 }
 
 export default nextConfig

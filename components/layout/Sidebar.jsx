@@ -27,7 +27,7 @@ export default function Sidebar({ role }) {
 
   const isActive = (href) => {
     if (href === '/') return pathname === '/'
-    return pathname.startsWith(href)
+    return pathname === href || pathname.startsWith(href + '/')
   }
 
   return (
