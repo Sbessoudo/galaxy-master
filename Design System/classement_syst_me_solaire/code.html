@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Solar System Ranking - The Planets</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Work+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#203244",
+                    "on-primary": "#002f67",
+                    "tertiary": "#c8bfff",
+                    "inverse-surface": "#d2e4fc",
+                    "on-secondary-fixed": "#40000f",
+                    "inverse-primary": "#335da3",
+                    "surface-variant": "#253649",
+                    "surface-bright": "#293b4d",
+                    "on-surface-variant": "#c3c6d2",
+                    "on-primary-fixed-variant": "#144589",
+                    "on-error": "#690005",
+                    "secondary-fixed": "#ffdadb",
+                    "secondary": "#ffb2b9",
+                    "surface-container": "#0f2132",
+                    "tertiary-fixed": "#e5deff",
+                    "primary-fixed": "#d7e2ff",
+                    "surface": "#021425",
+                    "on-background": "#d2e4fc",
+                    "error-container": "#93000a",
+                    "on-tertiary": "#2d128f",
+                    "on-secondary": "#67001e",
+                    "background": "#021425",
+                    "surface-container-low": "#0a1d2e",
+                    "surface-dim": "#021425",
+                    "surface-container-lowest": "#000f1f",
+                    "primary-container": "#0a4084",
+                    "on-surface": "#d2e4fc",
+                    "on-tertiary-container": "#afa3ff",
+                    "tertiary-fixed-dim": "#c8bfff",
+                    "tertiary-container": "#3f2ca0",
+                    "error": "#ffb4ab",
+                    "on-secondary-container": "#ffbcc1",
+                    "on-secondary-fixed-variant": "#91002e",
+                    "secondary-fixed-dim": "#ffb2b9",
+                    "on-primary-container": "#87aef9",
+                    "on-tertiary-fixed": "#190064",
+                    "outline-variant": "#434751",
+                    "surface-container-high": "#1a2b3d",
+                    "outline": "#8d909c",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-highest": "#253649",
+                    "primary-fixed-dim": "#acc7ff",
+                    "secondary-container": "#b00139",
+                    "on-tertiary-fixed-variant": "#4532a6",
+                    "on-primary-fixed": "#001a40",
+                    "surface-tint": "#acc7ff",
+                    "primary": "#acc7ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "xxl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Work Sans"],
+                    "label": ["Work Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .glass-morphism {
+        backdrop-filter: blur(16px);
+        background: rgba(15, 33, 50, 0.7);
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .pedestal-glow {
+        box-shadow: 0 0 40px -10px rgba(172, 199, 255, 0.3);
+      }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen selection:bg-primary selection:text-on-primary">
+<!-- Sidebar Navigation (Shared Component) -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-[#021425] bg-gradient-to-r from-transparent to-white/5 font-['Space_Grotesk'] text-sm uppercase tracking-widest py-6 z-50">
+<div class="px-6 mb-10 flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="rocket_launch">rocket_launch</span>
+</div>
+<div>
+<h1 class="text-xl font-black text-blue-100">The Planets</h1>
+<p class="text-[10px] text-slate-400 font-medium">Galactic HR Admin</p>
+</div>
+</div>
+<div class="flex-1 space-y-1">
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+<span>Missions</span>
+</a>
+<a class="border-l-4 border-[#FFB2B9] bg-white/5 text-blue-100 font-bold py-3 px-6 flex items-center gap-3 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="public">public</span>
+<span>Galactic Map</span>
+</a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Personnel</span>
+</a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span>Analytics</span>
+</a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>System Settings</span>
+</a>
+</div>
+<div class="px-6 mb-6">
+<button class="w-full py-4 bg-primary text-on-primary font-bold rounded-xxl flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Mission
+            </button>
+</div>
+<div class="border-t border-white/5 pt-4">
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="md:ml-64 min-h-screen relative pb-20">
+<!-- Top App Bar (Shared Component - Injected into Page context) -->
+<header class="fixed top-0 right-0 left-0 md:left-64 h-16 bg-[#021425] backdrop-blur-xl bg-opacity-80 border-b border-white/10 flex justify-between items-center px-8 z-40 shadow-2xl shadow-blue-900/20">
+<div class="flex items-center gap-4">
+<h2 class="font-headline text-xl font-bold bg-gradient-to-r from-blue-200 to-indigo-300 bg-clip-text text-transparent tracking-tight">Solar System Ranking</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden sm:flex items-center bg-surface-container-lowest px-4 py-1.5 rounded-full border border-white/5">
+<span class="material-symbols-outlined text-slate-400 text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none text-sm text-on-surface focus:ring-0 w-48" placeholder="Search explorers..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:text-blue-100 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-400 hover:text-blue-100 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary/30">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="Close up of a professional user avatar with a soft futuristic background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2-Vm5m01jmbnQUdjt8WSInfkYIhn-vwWm1eZeryOmBL-VwGuzlHW4txQM_L0Fkat281wrA55wNWOldpKdq8Uc9rGedbGZCW2arvE9qRTAmbpo0moH6FBe2RhhrK5x5_ymcmCxMk9H-rFbkidIxwTMGZgS7N1vOBxvFDBvEcaG-rwFwL_LTkRtIR9BV4inLTbKCFyFlkY6ZDm7QyTrTRv_-pGCTsRwTIOFhs8NRH-CK05M293NvjqKViI4xL4A7Wg5jLKCeyJOtA"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Ranking Dashboard Content -->
+<div class="pt-24 px-8 max-w-6xl mx-auto">
+<!-- Podium Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 items-end">
+<!-- Rank 2 -->
+<div class="order-2 md:order-1 flex flex-col items-center">
+<div class="relative mb-4 group">
+<div class="absolute -inset-2 bg-gradient-to-b from-blue-400/20 to-transparent rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-24 h-24 rounded-full border-4 border-slate-400 overflow-hidden relative z-10 p-1 bg-surface">
+<img alt="Second Place" class="w-full h-full rounded-full object-cover" data-alt="Portrait of a young man with glasses and a friendly expression in a futuristic style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcFmL2mg0XVR72dq7ZvxqhuXm4QKN3rG9S4fnlGnr7Qok4Hdg0HcCzQ6tnxQzoU6GDc3twxyHR_jef4PHxOgt0ywTYr6IDyh8_dmsHyTjfp79wy5lRgww8sYITwOzF04VZjNcD-3IddbVFCnBZJfKL89Um8MeMuUSjRDpt6oZqJMzm9xcBSStjm2lAzW13Y8Gf6V6zH83GGFeqPZ5mv3SOVr3Ofk8f-Oqdfm8DIiKAo8D9XPvi0PI8zUTAJRLBc_EkkhIOKNpAkQ"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-slate-400 text-surface font-headline font-bold text-lg w-10 h-10 rounded-full flex items-center justify-center border-4 border-surface z-20">2</div>
+</div>
+<div class="text-center">
+<h3 class="font-headline text-lg font-bold text-on-surface">Commander Nova</h3>
+<p class="text-slate-400 text-xs uppercase tracking-widest mb-4">Mars Exploration Unit</p>
+<div class="bg-surface-container-high p-4 rounded-xl border border-white/5 w-48 pedestal-glow">
+<span class="text-2xl font-black text-slate-300">14,820</span>
+<span class="block text-[10px] text-slate-500 uppercase mt-1">Stardust Points</span>
+</div>
+</div>
+</div>
+<!-- Rank 1 -->
+<div class="order-1 md:order-2 flex flex-col items-center scale-110 mb-8 md:mb-0">
+<div class="relative mb-6">
+<div class="absolute -inset-6 bg-gradient-to-b from-primary/30 to-transparent rounded-full blur-2xl"></div>
+<div class="w-32 h-32 rounded-full border-4 border-primary overflow-hidden relative z-10 p-1.5 bg-surface">
+<img alt="First Place" class="w-full h-full rounded-full object-cover" data-alt="Portrait of a woman with a confident smile against a starfield background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAajNvkxkk-5PiCwECrUXHhE-8c-rGkdqakyX2wKezd6bgt2LAtHdV9aCQlLu7m7-xr2mo9FzD3hUxqlvrvy5NnFAU8s38vqA6HZoKIznMkrMnVvExenHyHWhKvUU6j0bKbFCZZJ9xkI_RoDeuX3hFiGWLpgO9IH6OZnOKxOP40zubQa-esf1Kgj1Irc7li_zMFx16HSAsBjKY1f4TGpKIAu7BbkqUUivCZmM6WNKFGMXKWyB5ArUNE3H3rtjSQ9N8n07BuyOE1Qg"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-primary text-on-primary font-headline font-black text-xl w-12 h-12 rounded-full flex items-center justify-center border-4 border-surface z-20 shadow-lg shadow-primary/20">1</div>
+<div class="absolute -top-10 left-1/2 -translate-x-1/2">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="workspace_premium" data-weight="fill" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+</div>
+<div class="text-center">
+<h3 class="font-headline text-2xl font-black text-on-surface">Pilot Zenith</h3>
+<p class="text-primary text-xs uppercase tracking-[0.2em] font-semibold mb-4">Alpha Centauri Lead</p>
+<div class="bg-gradient-to-b from-primary-container to-surface-container-high p-6 rounded-xxl border border-primary/20 w-56 pedestal-glow">
+<span class="text-3xl font-black text-primary">18,540</span>
+<span class="block text-[10px] text-primary/70 uppercase mt-1">Total Stardust Earned</span>
+</div>
+</div>
+</div>
+<!-- Rank 3 -->
+<div class="order-3 flex flex-col items-center">
+<div class="relative mb-4 group">
+<div class="absolute -inset-2 bg-gradient-to-b from-secondary/20 to-transparent rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-24 h-24 rounded-full border-4 border-secondary overflow-hidden relative z-10 p-1 bg-surface">
+<img alt="Third Place" class="w-full h-full rounded-full object-cover" data-alt="Portrait of a focused individual with dark hair in high-tech attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTSoYHtMvDNhAVShCWqpJKX9U2-9yNu0I3LvvRpMEtdvfDhQLVzHTT92YBHd4ChxcUt5i056LIymLQ9riZGL6de-7m8wcyt_0ogqL-A0ooIP2SPAg8CHmEHZs5OBRO06YZ9KSPhuMoDvUrAp44FlRRZHLh_s5zvhme_yi1c1ehjDAh0W9i2wEzEOCkGHFpctbyz6zNwyBeF4PX3cvIrmNUxC8QuKLOlqEIQVIdwuFJa8qdBzVQQ83dNhia2RSoYCDPAw43mmLW6Q"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-secondary text-on-secondary font-headline font-bold text-lg w-10 h-10 rounded-full flex items-center justify-center border-4 border-surface z-20">3</div>
+</div>
+<div class="text-center">
+<h3 class="font-headline text-lg font-bold text-on-surface">Officer Orion</h3>
+<p class="text-slate-400 text-xs uppercase tracking-widest mb-4">Saturn Rings Patrol</p>
+<div class="bg-surface-container-high p-4 rounded-xl border border-white/5 w-48 pedestal-glow">
+<span class="text-2xl font-black text-secondary-fixed-dim">12,105</span>
+<span class="block text-[10px] text-slate-500 uppercase mt-1">Stardust Points</span>
+</div>
+</div>
+</div>
+</div>
+<!-- List Controls -->
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+<div class="flex gap-2 p-1 bg-surface-container-lowest rounded-xl border border-white/5">
+<button class="px-6 py-2 rounded-lg bg-surface-container-high text-primary font-bold text-xs uppercase tracking-widest transition-all">Individual</button>
+<button class="px-6 py-2 rounded-lg text-slate-500 font-bold text-xs uppercase tracking-widest hover:text-blue-200 transition-all">Sectors</button>
+</div>
+<div class="flex items-center gap-4 w-full md:w-auto">
+<div class="relative flex-1 md:flex-initial">
+<select class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-2 text-sm text-slate-300 focus:ring-1 focus:ring-primary appearance-none pr-10">
+<option>All Systems</option>
+<option>Sol System</option>
+<option>Alpha Centauri</option>
+<option>Trappist-1</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" data-icon="expand_more">expand_more</span>
+</div>
+<button class="bg-surface-container-low border border-white/10 p-2 rounded-xl text-slate-400 hover:text-blue-100 transition-all">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Ranking Table -->
+<div class="bg-surface-container-low rounded-xxl overflow-hidden border border-white/5 shadow-xl">
+<table class="w-full text-left">
+<thead class="bg-surface-container-high/50 border-b border-white/5">
+<tr>
+<th class="px-8 py-5 text-[10px] font-headline font-bold uppercase tracking-[0.2em] text-slate-500">Rank</th>
+<th class="px-8 py-5 text-[10px] font-headline font-bold uppercase tracking-[0.2em] text-slate-500">Explorer</th>
+<th class="px-8 py-5 text-[10px] font-headline font-bold uppercase tracking-[0.2em] text-slate-500">System</th>
+<th class="px-8 py-5 text-[10px] font-headline font-bold uppercase tracking-[0.2em] text-slate-500 text-right">Points</th>
+<th class="px-8 py-5 text-[10px] font-headline font-bold uppercase tracking-[0.2em] text-slate-500 text-center">Trend</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<!-- Row 4 -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="px-8 py-5">
+<span class="font-headline font-black text-xl text-slate-600 group-hover:text-slate-400 transition-colors">04</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border border-white/10 overflow-hidden">
+<img alt="Rank 4" class="w-full h-full object-cover" data-alt="Portrait of an explorer in a sleek blue flight suit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0KcxpJSEVhXP0j0tqTv6s6M84u3xocaR01EfX2b9PDohwwdUE5-jNj3EFfi1o4mYCS3chEDCRMobhuTKJiA6JDmJHHEfoo7s53xvydqKTjn44uNEjWekXDaCt3ups58l6Ly5ftFDcpuxhMVhDTTX7lgXGlDwFVzKqvIcvflb5MwsivW1mOJ-FQhSb1Jr1eNWmzWISsNG_neikPpBXu9fsK54tXQ8cycwES6DKI4SOoGOVxyC6FsbAxIICUYFlSYsVRf3lYqoTDg"/>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">Lyra Vance</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest">Astro-Engineer</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.5)]"></div>
+<span class="text-sm text-slate-300">Sol</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="font-headline font-bold text-primary">11,450</span>
+</td>
+<td class="px-8 py-5 text-center">
+<span class="material-symbols-outlined text-green-400 text-lg" data-icon="trending_up">trending_up</span>
+</td>
+</tr>
+<!-- Row 5 (Active User) -->
+<tr class="bg-primary/10 transition-colors group border-y border-primary/20">
+<td class="px-8 py-5">
+<span class="font-headline font-black text-xl text-primary">05</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+<img alt="You" class="w-full h-full object-cover" data-alt="Avatar showing the current user's representative image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDO2DWL3IROqiAFsOdwEkrni_ygusaOJeSdmvltiaJRy_z-Q5noMsom6e_sfKXzrOD6gIEA-PHdM5y3CvBBhcQftGGZUGiXQt1WKhtxEip2paTivvzodavAPLc0bo8PH1BvILhwMv0AQqAVAHufwyPH2XpoHdNEwMCU5QbvidkyHRo0-h6aSrWTUaOmmKP8jmm_RCza_GlCRLu4r8YOR5fEsoSy4IWn4lQ0BdcW9ODgAVOdyTHU_aIoolv9-rKnklpE01s-kYPFkQ"/>
+</div>
+<div>
+<p class="font-headline font-bold text-primary">You (Explorer Core)</p>
+<p class="text-[10px] text-primary/70 uppercase tracking-widest font-bold">Deep Space Scout</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(192,132,252,0.5)]"></div>
+<span class="text-sm text-slate-300">Kepler-186f</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="font-headline font-bold text-primary">10,920</span>
+</td>
+<td class="px-8 py-5 text-center">
+<span class="material-symbols-outlined text-slate-500 text-lg" data-icon="horizontal_rule">horizontal_rule</span>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="px-8 py-5">
+<span class="font-headline font-black text-xl text-slate-600 group-hover:text-slate-400 transition-colors">06</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border border-white/10 overflow-hidden">
+<img alt="Rank 6" class="w-full h-full object-cover" data-alt="Close up of a futuristic tech expert with interface glow reflecting on their face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9ng6fI2W34O_clKffHjFwpwo6VQ3szo-Gm9qRrg6yTaZuUkypQoZkAK-u60c3KkIK5mVuBmOG0Y5azimA70Izj97eMazFAtBVDeqRdSBxyP5xBElcU3QQsxQ9qrAot1j88HejgRbaj1gvPAFhO9MWW0UZFr-TNB63PDburbO22fWoZajAoPHFPe8Zu6RnwZ3y7TLLcTyQrz-ZdWLL0bcyYrzD_pkQW4WRs412hvKeT2s50n99cObKS9VlDCF4lWvbZ2Nf1o-J-g"/>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">Jax Thorne</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest">Rings Pilot</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.5)]"></div>
+<span class="text-sm text-slate-300">Trappist-1</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="font-headline font-bold text-on-surface">9,840</span>
+</td>
+<td class="px-8 py-5 text-center">
+<span class="material-symbols-outlined text-red-400 text-lg" data-icon="trending_down">trending_down</span>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="px-8 py-5">
+<span class="font-headline font-black text-xl text-slate-600 group-hover:text-slate-400 transition-colors">07</span>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border border-white/10 overflow-hidden">
+<img alt="Rank 7" class="w-full h-full object-cover" data-alt="Side profile of an interstellar navigator look at stars" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByAMehK28tRG0wF_46x0TgX005uHn7tyfCZMLdgXA2FS348E3iCoeEJKCY9THtIK2KRvm29yZoKUZKVd7mNJf_R1DZs7PIXzPcXvm2SPUXuxjDqlX5nd5Jxo1kXG4rnBBQ8xji7hG0FCrTE8O091WNOBip2xAJ2bKH3FrAEinImWlFjujz0ca77n_7htgaNSUh8BHv_ijUUR3sFZQwyf7ZPVRvd311NcMOOowQLJ-tAOVSZP7txe9X19Ww0VB70TzSV_QPzmDSkw"/>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">Sana Kapoor</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest">Xenobotanist</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]"></div>
+<span class="text-sm text-slate-300">Sol</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="font-headline font-bold text-on-surface">8,100</span>
+</td>
+<td class="px-8 py-5 text-center">
+<span class="material-symbols-outlined text-green-400 text-lg" data-icon="trending_up">trending_up</span>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-6 bg-surface-container-high/30 text-center border-t border-white/5">
+<button class="text-primary font-headline font-bold text-sm hover:underline tracking-widest uppercase">Load Remaining Sector Rankings</button>
+</div>
+</div>
+<!-- Quick Stats Section -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+<div class="bg-surface-container-high p-6 rounded-xxl border border-white/5 group hover:border-primary/30 transition-all cursor-default">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="bolt">bolt</span>
+<span class="text-[10px] font-bold text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">+12%</span>
+</div>
+<p class="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Current Velocity</p>
+<h4 class="text-2xl font-headline font-black text-on-surface mt-1">420 pts/wk</h4>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xxl border border-white/5 group hover:border-secondary/30 transition-all cursor-default">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="verified">verified</span>
+<span class="text-[10px] font-bold text-slate-500 bg-slate-500/10 px-2 py-0.5 rounded-full">Top 5%</span>
+</div>
+<p class="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Achievement Tier</p>
+<h4 class="text-2xl font-headline font-black text-on-surface mt-1">Supernova</h4>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xxl border border-white/5 group hover:border-tertiary/30 transition-all cursor-default">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-tertiary" data-icon="timer">timer</span>
+<span class="text-[10px] font-bold text-red-400 bg-red-400/10 px-2 py-0.5 rounded-full">2d left</span>
+</div>
+<p class="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Season Reset</p>
+<h4 class="text-2xl font-headline font-black text-on-surface mt-1">Solar Cycle 12</h4>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xxl border border-white/5 group hover:border-primary/30 transition-all cursor-default">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="group">group</span>
+<span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">Active</span>
+</div>
+<p class="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Global Explorers</p>
+<h4 class="text-2xl font-headline font-black text-on-surface mt-1">2,842,001</h4>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom Navigation (Shared Component) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#021425] backdrop-blur-xl bg-opacity-80 flex items-center justify-around px-4 z-50 border-t border-white/5">
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] uppercase font-bold tracking-tighter">Dash</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+<span class="text-[10px] uppercase font-bold tracking-tighter">Missions</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" data-icon="public">public</span>
+<span class="text-[10px] uppercase font-bold tracking-tighter">Map</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-[10px] uppercase font-bold tracking-tighter">Crew</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="text-[10px] uppercase font-bold tracking-tighter">Data</span>
+</button>
+</nav>
+</body></html>

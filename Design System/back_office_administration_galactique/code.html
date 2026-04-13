@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Planets | Galactic HR Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Work+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#203244",
+                        "on-primary": "#002f67",
+                        "tertiary": "#c8bfff",
+                        "inverse-surface": "#d2e4fc",
+                        "on-secondary-fixed": "#40000f",
+                        "inverse-primary": "#335da3",
+                        "surface-variant": "#253649",
+                        "surface-bright": "#293b4d",
+                        "on-surface-variant": "#c3c6d2",
+                        "on-primary-fixed-variant": "#144589",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#ffdadb",
+                        "secondary": "#ffb2b9",
+                        "surface-container": "#0f2132",
+                        "tertiary-fixed": "#e5deff",
+                        "primary-fixed": "#d7e2ff",
+                        "surface": "#021425",
+                        "on-background": "#d2e4fc",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#2d128f",
+                        "on-secondary": "#67001e",
+                        "background": "#021425",
+                        "surface-container-low": "#0a1d2e",
+                        "surface-dim": "#021425",
+                        "surface-container-lowest": "#000f1f",
+                        "primary-container": "#0a4084",
+                        "on-surface": "#d2e4fc",
+                        "on-tertiary-container": "#afa3ff",
+                        "tertiary-fixed-dim": "#c8bfff",
+                        "tertiary-container": "#3f2ca0",
+                        "error": "#ffb4ab",
+                        "on-secondary-container": "#ffbcc1",
+                        "on-secondary-fixed-variant": "#91002e",
+                        "secondary-fixed-dim": "#ffb2b9",
+                        "on-primary-container": "#87aef9",
+                        "on-tertiary-fixed": "#190064",
+                        "outline-variant": "#434751",
+                        "surface-container-high": "#1a2b3d",
+                        "outline": "#8d909c",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#253649",
+                        "primary-fixed-dim": "#acc7ff",
+                        "secondary-container": "#b00139",
+                        "on-tertiary-fixed-variant": "#4532a6",
+                        "on-primary-fixed": "#001a40",
+                        "surface-tint": "#acc7ff",
+                        "primary": "#acc7ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Work Sans"],
+                        "label": ["Work Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Work Sans', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-[#021425] flex flex-col h-full py-6 z-50 transition-all duration-200 ease-in-out no-border bg-gradient-to-r from-transparent to-white/5">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" data-icon="rocket_launch">rocket_launch</span>
+</div>
+<div>
+<h1 class="text-xl font-black text-blue-100 font-headline uppercase tracking-widest leading-none">The Planets</h1>
+<p class="text-[10px] text-slate-400 font-label tracking-widest uppercase mt-1">Galactic HR Admin</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1 font-['Space_Grotesk'] text-sm uppercase tracking-widest">
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="border-l-4 border-[#FFB2B9] bg-white/5 text-blue-100 font-bold py-3 px-6 flex items-center gap-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+<span>Missions</span>
+</a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="public">public</span>
+<span>Galactic Map</span>
+</a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Personnel</span>
+</a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span>Analytics</span>
+</a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>System Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-4">
+<button class="w-full bg-primary hover:bg-primary-fixed text-on-primary py-4 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                New Mission
+            </button>
+</div>
+<div class="mt-auto px-6 pt-6 space-y-1 font-['Space_Grotesk'] text-sm uppercase tracking-widest border-t border-white/5">
+<a class="text-slate-400 hover:text-blue-200 py-3 flex items-center gap-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="text-slate-400 hover:text-blue-200 py-3 flex items-center gap-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 w-full z-40 bg-[#021425] backdrop-blur-xl bg-opacity-80 border-b border-white/10 shadow-2xl shadow-blue-900/20 pl-64 h-16 flex justify-between items-center px-8 transition-all duration-300">
+<div class="flex items-center gap-4">
+<h2 class="text-2xl font-bold bg-gradient-to-r from-blue-200 to-indigo-300 bg-clip-text text-transparent font-['Space_Grotesk'] tracking-tight">Mission Control</h2>
+<div class="h-6 w-[1px] bg-white/10 mx-2"></div>
+<span class="text-slate-400 text-sm font-label uppercase tracking-widest">Sector 7G / Logistics</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<input class="bg-surface-container-lowest border-none rounded-xl py-2 pl-10 pr-4 text-sm text-on-surface focus:ring-2 focus:ring-primary w-64 transition-all" placeholder="Search galaxies..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-2 text-slate-500 text-lg" data-icon="search">search</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="text-slate-400 hover:text-blue-100 hover:bg-white/5 p-2 rounded-xl transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-400 hover:text-blue-100 hover:bg-white/5 p-2 rounded-xl transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary/20 hover:border-primary transition-colors cursor-pointer">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="close-up portrait of a professional male architect in a clean workspace with blue cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7WbdY3TKkW5Ra5_FnWFahtQHcBwWbXoV9uqz2H1gvwnmZx3jnSeuSFWPbG4ksYifIM7JB_WpNn56LD4z9AeMWD3kwsuk_hlVjTmotjX70bePNZ7fKaCjXJEKSsu5JBHZBDPC4ea3C4J9px9uD79tczArOBIMMCfUbpRtxozUpVQkxVNVw6axSt-yzRuvGmEH8Cbj6ueX90qKAMeB9snr7iJkXcBCKxmlUX0hPfipdIzw0V8G1BT8RnOuki-u_QmyU8l5fya6PwQ"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="pl-64 pt-16 min-h-screen">
+<div class="p-8 max-w-[1400px] mx-auto">
+<!-- Header Editorial Section -->
+<section class="mb-12">
+<div class="flex justify-between items-end">
+<div class="space-y-2">
+<span class="text-secondary font-label font-bold text-xs uppercase tracking-[0.2em]">Live Operations</span>
+<h1 class="text-[3.5rem] font-black leading-none tracking-tighter text-blue-100">Planet Management</h1>
+</div>
+<div class="flex gap-4 mb-2">
+<button class="px-6 py-3 rounded-xl border border-outline-variant hover:bg-surface-container-high transition-all font-label font-bold text-sm text-blue-200">
+                            Export Manifest
+                        </button>
+<button class="px-6 py-3 rounded-xl bg-secondary text-on-secondary hover:bg-secondary-fixed transition-all font-label font-bold text-sm shadow-xl shadow-secondary/10 active:scale-95">
+                            Provision New Planet
+                        </button>
+</div>
+</div>
+</section>
+<!-- Stats Overview Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+<div class="col-span-1 bg-surface-container-low p-6 rounded-xl border-l-4 border-primary group hover:bg-surface-container transition-all">
+<p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total Colonies</p>
+<h3 class="text-3xl font-headline font-black text-blue-100">142</h3>
+<div class="mt-4 flex items-center text-xs text-green-400 font-bold">
+<span class="material-symbols-outlined text-sm mr-1" data-icon="trending_up">trending_up</span>
+                        +12% vs last cycle
+                    </div>
+</div>
+<div class="col-span-1 bg-surface-container-low p-6 rounded-xl border-l-4 border-tertiary group hover:bg-surface-container transition-all">
+<p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Active Missions</p>
+<h3 class="text-3xl font-headline font-black text-blue-100">28</h3>
+<div class="mt-4 flex items-center text-xs text-slate-400 font-bold">
+<span class="material-symbols-outlined text-sm mr-1" data-icon="sync">sync</span>
+                        4 in transit
+                    </div>
+</div>
+<div class="col-span-1 md:col-span-2 bg-gradient-to-br from-primary-container to-surface-container-high p-6 rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-blue-200 text-[10px] font-bold uppercase tracking-widest mb-1">Fleet Readiness</p>
+<h3 class="text-3xl font-headline font-black text-white">94.8%</h3>
+<div class="mt-4 w-full bg-black/20 h-2 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-tertiary w-[94.8%] shadow-[0_0_8px_rgba(172,199,255,0.5)]"></div>
+</div>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl text-white/5 rotate-12" data-icon="rocket">rocket</span>
+</div>
+</section>
+<!-- Main Data Table Container -->
+<section class="bg-surface-container-low rounded-xl overflow-hidden shadow-2xl">
+<div class="p-6 flex justify-between items-center bg-surface-container-high/50 backdrop-blur-sm border-b border-white/5">
+<div class="flex gap-4 items-center">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest border border-outline-variant/20 rounded-lg text-sm text-blue-200 font-label">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                            Filter System
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest border border-outline-variant/20 rounded-lg text-sm text-blue-200 font-label">
+<span class="material-symbols-outlined text-sm" data-icon="sort">sort</span>
+                            Sort by Distance
+                        </button>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-slate-500 text-xs font-label">Showing 10 of 142 planets</span>
+<div class="flex gap-1">
+<button class="p-1 text-slate-500 hover:text-white transition-colors"><span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span></button>
+<button class="p-1 text-slate-500 hover:text-white transition-colors"><span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">
+<th class="px-6 py-5 border-b border-white/5">Planet Identity</th>
+<th class="px-6 py-5 border-b border-white/5">Status</th>
+<th class="px-6 py-5 border-b border-white/5">Population</th>
+<th class="px-6 py-5 border-b border-white/5">Orbital Period</th>
+<th class="px-6 py-5 border-b border-white/5 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<!-- Planet Row 1 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full relative overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 border border-white/20">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/20 to-transparent"></div>
+<img alt="Planet Surface" class="w-full h-full object-cover mix-blend-overlay" data-alt="vibrant neon purple gas giant planet with glowing rings and swirling nebula clouds in deep space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdhSVlg-yajlfq6qQbjGqvzWN_sTye0velBvnMcSjtERTWaMD-TTDxc_2yeNHVVV_KYcTPYSaSSdCWjDE-vYZwXNOshkni_OTs9Dwc7orCQheiyEI6t-Xnqqks3nkUQLHUvtOahhtUPULRRQIgmf1aiF1h45SLBpY5NyfOTwXzGAkQZ5dn1HLlxhPBrnbFNqhbnxDB8qa4AvTW1wxGpNCu1d7s-U6Zc8CFISj0MWfi1JcThBe1PnRD5dgTpjhZ9Hvg9EK4f34Uow"/>
+</div>
+<div>
+<div class="text-blue-100 font-bold font-headline">Kepler-186f</div>
+<div class="text-slate-500 text-xs font-label">Earth-like / Cygnus</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-green-500/10 text-green-400 border border-green-500/20 uppercase tracking-widest">Stable</span>
+</td>
+<td class="px-6 py-5">
+<div class="text-blue-200 font-bold">2.4M</div>
+<div class="text-slate-500 text-[10px] uppercase tracking-widest">Colonists</div>
+</td>
+<td class="px-6 py-5">
+<div class="text-blue-200">129.9 Days</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-all"><span class="material-symbols-outlined text-xl" data-icon="edit">edit</span></button>
+<button class="p-2 text-slate-400 hover:text-tertiary hover:bg-tertiary/10 rounded-lg transition-all"><span class="material-symbols-outlined text-xl" data-icon="analytics">analytics</span></button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error/10 rounded-lg transition-all"><span class="material-symbols-outlined text-xl" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Planet Row 2 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full relative overflow-hidden bg-gradient-to-br from-red-500 to-orange-700 border border-white/20">
+<img alt="Planet Surface" class="w-full h-full object-cover" data-alt="close-up of a cracked volcanic planet surface with glowing magma veins and dense ash atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGnYLbVuDdY3nHNX6TsHgDr43GxuBzZ6w9_pipagboIVRPEwTvlAP6NY7Of78Cf6ZHxQpraQ6gw9JxQSDiBnjD6Kq9cIVuu9VykC3LHawZ-LA2daaZ-MGjKurNNIbU8vBrMdcQTdYXHUs1wD5DWoSsfW-cUxnk00zh1iaC4kt7tCQSz1ljK0J9DLX5rCIZf3vpj1Rnst8Lb0l9TDKOwc-uUFZAdd9yYCAyFiCv0zKa-pdHRNlcVOIjOEnINjr3B2ct0naXuEIVow"/>
+</div>
+<div>
+<div class="text-blue-100 font-bold font-headline">Gliese 581g</div>
+<div class="text-slate-500 text-xs font-label">Super-Earth / Libra</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-secondary/10 text-secondary border border-secondary/20 uppercase tracking-widest">Active Mission</span>
+</td>
+<td class="px-6 py-5">
+<div class="text-blue-200 font-bold">12.5k</div>
+<div class="text-slate-500 text-[10px] uppercase tracking-widest">Scientific Unit</div>
+</td>
+<td class="px-6 py-5">
+<div class="text-blue-200">36.6 Days</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-all"><span class="material-symbols-outlined text-xl" data-icon="edit">edit</span></button>
+<button class="p-2 text-slate-400 hover:text-tertiary hover:bg-tertiary/10 rounded-lg transition-all"><span class="material-symbols-outlined text-xl" data-icon="analytics">analytics</span></button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error/10 rounded-lg transition-all"><span class="material-symbols-outlined text-xl" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Planet Row 3 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full relative overflow-hidden bg-gradient-to-br from-cyan-400 to-blue-600 border border-white/20">
+<img alt="Planet Surface" class="w-full h-full object-cover" data-alt="icy crystalline planet surface with glowing blue frozen oceans and jagged white peaks under a clear starfield" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyXO-SHQ8TQyIsX6zUp4PmU2jEsMWviLrmOFlHiFzGOn80pz5ij69BnoLEoBMQEGQ28R88MEZKEJblNRRLZdB-VPqw1_Z0OEyWpLhfx8iqFXR9773QlihJn4IpQOMBF4ouIYKFvz4FbNLSAozj_5lHd0mrWM6NE2u3AgqeiixH9n60LtTBh_H35luyy-dKancWEhjbQK_-eBqAyP3ZEj5nUeb8-4GpdSdRH0d2gWJe5xYGL--_2Qye_zUMzfVmyCTxTx0hiJTcMA"/>
+</div>
+<div>
+<div class="text-blue-100 font-bold font-headline">TRAPPIST-1e</div>
+<div class="text-slate-500 text-xs font-label">Habitable Zone / Aquarius</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20 uppercase tracking-widest">Surveying</span>
+</td>
+<td class="px-6 py-5">
+<div class="text-blue-200 font-bold">0</div>
+<div class="text-slate-500 text-[10px] uppercase tracking-widest">Uninhabited</div>
+</td>
+<td class="px-6 py-5">
+<div class="text-blue-200">6.1 Days</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-all"><span class="material-symbols-outlined text-xl" data-icon="edit">edit</span></button>
+<button class="p-2 text-slate-400 hover:text-tertiary hover:bg-tertiary/10 rounded-lg transition-all"><span class="material-symbols-outlined text-xl" data-icon="analytics">analytics</span></button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error/10 rounded-lg transition-all"><span class="material-symbols-outlined text-xl" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 bg-surface-container-high/30 border-t border-white/5 flex justify-between items-center">
+<button class="text-sm font-label text-slate-400 hover:text-blue-200 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="file_download">file_download</span>
+                        Download Full Ledger (CSV)
+                    </button>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold text-xs">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/5 text-slate-400 text-xs">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/5 text-slate-400 text-xs">3</button>
+<span class="text-slate-600 px-1">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/5 text-slate-400 text-xs">15</button>
+</div>
+</div>
+</section>
+<!-- Bottom Context Cards -->
+<section class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 bg-surface-container-low p-8 rounded-xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl group-hover:bg-primary/10 transition-all duration-700"></div>
+<div class="relative z-10">
+<h3 class="text-2xl font-black text-blue-100 mb-4">Galactic HR Insights</h3>
+<p class="text-slate-400 text-sm leading-relaxed mb-6 max-w-xl">
+                            The current population growth across the Trappist system is exceeding logistics projections. We recommend increasing food supply missions to Kepler sector by 14% to maintain moral scores.
+                        </p>
+<div class="flex gap-8">
+<div>
+<p class="text-slate-500 text-[10px] uppercase tracking-widest font-bold mb-1">Average Morale</p>
+<div class="flex items-center gap-2">
+<span class="text-2xl font-headline font-bold text-blue-100">8.4</span>
+<span class="text-xs text-green-400">+0.2</span>
+</div>
+</div>
+<div class="h-10 w-[1px] bg-white/10 self-center"></div>
+<div>
+<p class="text-slate-500 text-[10px] uppercase tracking-widest font-bold mb-1">Turnover Rate</p>
+<div class="flex items-center gap-2">
+<span class="text-2xl font-headline font-bold text-blue-100">1.2%</span>
+<span class="text-xs text-slate-400">-0.5%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-high p-8 rounded-xl border border-primary/10 relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="text-xl font-black text-blue-100 mb-6">System Health</h3>
+<div class="space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-label">
+<span class="text-slate-400 uppercase tracking-widest">Mainframe Load</span>
+<span class="text-primary font-bold">42%</span>
+</div>
+<div class="h-1.5 bg-black/40 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[42%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-label">
+<span class="text-slate-400 uppercase tracking-widest">Data Latency</span>
+<span class="text-secondary font-bold">88ms</span>
+</div>
+<div class="h-1.5 bg-black/40 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[88%]"></div>
+</div>
+</div>
+<button class="w-full mt-4 flex items-center justify-center gap-2 text-xs font-bold text-blue-200 uppercase tracking-widest hover:text-white transition-colors group">
+                                View Full Diagnostics
+                                <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FAB for quick mission creation (Contextual suppression check: This is the dashboard, so it shows) -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary rounded-full shadow-[0_8px_24px_rgba(172,199,255,0.4)] flex items-center justify-center group hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-on-primary text-3xl font-bold group-hover:rotate-90 transition-transform" data-icon="add">add</span>
+</button>
+</body></html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Planets - Mission Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Work+Sans:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Work Sans', sans-serif;
+        }
+        h1, h2, h3, .headline-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#203244",
+                        "on-primary": "#002f67",
+                        "tertiary": "#c8bfff",
+                        "inverse-surface": "#d2e4fc",
+                        "on-secondary-fixed": "#40000f",
+                        "inverse-primary": "#335da3",
+                        "surface-variant": "#253649",
+                        "surface-bright": "#293b4d",
+                        "on-surface-variant": "#c3c6d2",
+                        "on-primary-fixed-variant": "#144589",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#ffdadb",
+                        "secondary": "#ffb2b9",
+                        "surface-container": "#0f2132",
+                        "tertiary-fixed": "#e5deff",
+                        "primary-fixed": "#d7e2ff",
+                        "surface": "#021425",
+                        "on-background": "#d2e4fc",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#2d128f",
+                        "on-secondary": "#67001e",
+                        "background": "#021425",
+                        "surface-container-low": "#0a1d2e",
+                        "surface-dim": "#021425",
+                        "surface-container-lowest": "#000f1f",
+                        "primary-container": "#0a4084",
+                        "on-surface": "#d2e4fc",
+                        "on-tertiary-container": "#afa3ff",
+                        "tertiary-fixed-dim": "#c8bfff",
+                        "tertiary-container": "#3f2ca0",
+                        "error": "#ffb4ab",
+                        "on-secondary-container": "#ffbcc1",
+                        "on-secondary-fixed-variant": "#91002e",
+                        "secondary-fixed-dim": "#ffb2b9",
+                        "on-primary-container": "#87aef9",
+                        "on-tertiary-fixed": "#190064",
+                        "outline-variant": "#434751",
+                        "surface-container-high": "#1a2b3d",
+                        "outline": "#8d909c",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#253649",
+                        "primary-fixed-dim": "#acc7ff",
+                        "secondary-container": "#b00139",
+                        "on-tertiary-fixed-variant": "#4532a6",
+                        "on-primary-fixed": "#001a40",
+                        "surface-tint": "#acc7ff",
+                        "primary": "#acc7ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Work Sans"],
+                        "label": ["Work Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#021425] backdrop-blur-xl bg-opacity-80 border-b border-white/10 shadow-2xl shadow-blue-900/20 flex justify-between items-center px-8 h-16 w-full">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold bg-gradient-to-r from-blue-200 to-indigo-300 bg-clip-text text-transparent font-['Space_Grotesk'] tracking-tight">The Planets</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-blue-200 border-b-2 border-blue-400 font-['Space_Grotesk'] tracking-tight h-16 flex items-center" href="#">Missions</a>
+<a class="text-slate-400 hover:text-blue-100 transition-all duration-300 font-['Space_Grotesk'] tracking-tight h-16 flex items-center" href="#">Galactic Map</a>
+<a class="text-slate-400 hover:text-blue-100 transition-all duration-300 font-['Space_Grotesk'] tracking-tight h-16 flex items-center" href="#">Personnel</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="bg-surface-container-lowest border border-white/10 rounded-full py-1.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary w-64 transition-all" placeholder="Search systems..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-slate-400 hover:bg-white/5 p-2 rounded-full transition-all duration-300 active:scale-95">notifications</button>
+<button class="material-symbols-outlined text-slate-400 hover:bg-white/5 p-2 rounded-full transition-all duration-300 active:scale-95">settings</button>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full border border-white/20 ml-2" data-alt="close-up portrait of a thoughtful man with creative energy in a high-tech studio environment with soft blue ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkbQGTwaYfL06qzmsanz_hEuPyAmVpVKlrl_hGKNF4ff0gEZL4eJX4GT-Sh-uyg1b3EsxL2CDXJLcuM3ThJtCivKtlWb5FDPg4JiI2wA7gAT0QpwqQZJscw_brzuZyBgHIca6PFxj1tM_CDpkPECEWZObHhngMNRSUOj_6VzUS3rpf8z5vgQThpsGV1Pi_IOWC-NiR8BhpAc9SnFC0C9YXC1SGPk5x9ZmdRr1pu0oS9lsorYnG3RPNeVCyMaOwdwOO4zGu_4yn4Q"/>
+</div>
+</nav>
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden lg:flex flex-col h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-[#021425] py-6 z-40 bg-gradient-to-r from-transparent to-white/5">
+<div class="px-6 mb-10 mt-16">
+<div class="flex items-center gap-3 mb-1">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-xl">rocket_launch</span>
+</div>
+<span class="text-xl font-black text-blue-100 font-['Space_Grotesk']">The Planets</span>
+</div>
+<span class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-['Work_Sans'] font-bold">Galactic HR Admin</span>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-all duration-200 ease-in-out font-['Space_Grotesk'] text-sm uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> Dashboard
+            </a>
+<a class="border-l-4 border-[#FFB2B9] bg-white/5 text-blue-100 font-bold py-3 px-6 flex items-center gap-3 transition-all duration-200 ease-in-out font-['Space_Grotesk'] text-sm uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span> Missions
+            </a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-all duration-200 ease-in-out font-['Space_Grotesk'] text-sm uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="public">public</span> Galactic Map
+            </a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-all duration-200 ease-in-out font-['Space_Grotesk'] text-sm uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span> Personnel
+            </a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-all duration-200 ease-in-out font-['Space_Grotesk'] text-sm uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span> Analytics
+            </a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 transition-all duration-200 ease-in-out font-['Space_Grotesk'] text-sm uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span> System Settings
+            </a>
+</nav>
+<div class="px-6 mt-8">
+<button class="w-full bg-secondary text-on-secondary font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-transform active:scale-95 hover:shadow-lg hover:shadow-secondary/20">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="font-['Space_Grotesk'] tracking-tight">New Mission</span>
+</button>
+</div>
+<div class="mt-auto border-t border-white/5 pt-4 space-y-1">
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 font-['Space_Grotesk'] text-sm uppercase tracking-widest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span> Support
+            </a>
+<a class="text-slate-400 hover:text-blue-200 py-3 px-6 flex items-center gap-3 font-['Space_Grotesk'] text-sm uppercase tracking-widest transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span> Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-20 pb-12 px-6 md:px-12 min-h-screen bg-surface relative overflow-hidden">
+<!-- Celestial Background Accents -->
+<div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="absolute bottom-[-5%] left-[10%] w-[400px] h-[400px] bg-tertiary/5 blur-[100px] rounded-full pointer-events-none"></div>
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 mb-8 text-xs font-bold tracking-widest text-slate-500 uppercase font-['Work_Sans']">
+<a class="hover:text-primary transition-colors" href="#">Galactic Map</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface">The Planet of Knowledge</span>
+</div>
+<!-- Hero Section -->
+<div class="relative grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+<div class="lg:col-span-7 z-10">
+<h1 class="text-5xl md:text-7xl font-bold text-on-surface mb-6 leading-tight tracking-tighter">The Planet of <span class="bg-gradient-to-r from-primary to-tertiary bg-clip-text text-transparent">Knowledge</span></h1>
+<p class="text-lg text-on-surface-variant max-w-2xl mb-8 leading-relaxed font-light">Explore the deep archives of cosmic wisdom. Complete the archival quests to unlock advanced certification and contribute to the galactic repository of truth.</p>
+<div class="flex flex-wrap gap-4">
+<button class="px-8 py-4 bg-primary text-on-primary rounded-xl font-bold text-lg flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-primary/20">
+<span class="material-symbols-outlined" data-weight="fill">play_arrow</span> Start Exploration
+                    </button>
+<button class="px-8 py-4 bg-surface-container-high text-on-surface rounded-xl font-bold text-lg flex items-center gap-3 border border-white/5 transition-all hover:bg-surface-container-highest">
+<span class="material-symbols-outlined">share</span> Invite Crew
+                    </button>
+</div>
+</div>
+<!-- Asymmetric Planet Visual -->
+<div class="lg:col-span-5 relative">
+<div class="relative w-full aspect-square max-w-[500px] mx-auto">
+<!-- Glow effect -->
+<div class="absolute inset-0 bg-primary/30 blur-[60px] rounded-full animate-pulse"></div>
+<!-- The Planet Image -->
+<div class="relative w-full h-full rounded-full border border-white/10 overflow-hidden shadow-2xl ring-8 ring-white/5">
+<img alt="Planet of Knowledge" class="w-full h-full object-cover" data-alt="glowing blue ethereal planet with visible atmospheric energy swirls and rings of data particles in deep space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBANVvyy6gwf7vLAced40r_sQKLvU840txd9Pk5btHt4F3iYYtJ_KEeDZ-oEeMfdeW6RReg9kokGdaZgxzTqN48XuKk544lr0Jl3UlAP2HVaWjQQpn7zE6obmbk1wzy1NBn5cn7hPOubpGi_hYXeBdv9nuE5GG7V_zag04wyPdmL7H9WPh5vEXtZRUxp4hriHMP7A3a2bQPVd7x-okS0SD5co7zDHkug2AaqiCxYaIi5RSaTa1J0Zc-cKqX4AFjWAwXOIFSbU5FWA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#021425] via-transparent to-transparent opacity-60"></div>
+</div>
+<!-- Floating Data Badge -->
+<div class="absolute -top-4 -right-4 bg-surface-container-highest/90 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-xl">
+<div class="text-[10px] uppercase tracking-widest text-secondary font-bold mb-1">Orbital Status</div>
+<div class="text-on-surface font-bold">STABLE ORBIT</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Stats Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+<div class="bg-surface-container-low p-8 rounded-xl border border-white/5 flex flex-col justify-between min-h-[160px]">
+<span class="material-symbols-outlined text-primary text-3xl mb-4">stars</span>
+<div>
+<div class="text-4xl font-bold text-on-surface mb-1">1,250</div>
+<div class="text-xs uppercase tracking-widest text-slate-500 font-bold">Total Points Earnable</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl border border-white/5 flex flex-col justify-between min-h-[160px]">
+<span class="material-symbols-outlined text-secondary text-3xl mb-4">bolt</span>
+<div>
+<div class="text-4xl font-bold text-on-surface mb-1">12</div>
+<div class="text-xs uppercase tracking-widest text-slate-500 font-bold">Active Quests</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl border border-white/5 flex flex-col justify-between min-h-[160px]">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-tertiary text-3xl">trending_up</span>
+<span class="text-tertiary font-bold text-sm">45% Complete</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-3 overflow-hidden mb-2">
+<div class="bg-gradient-to-r from-primary to-tertiary h-full w-[45%] shadow-[0_0_12px_rgba(172,199,255,0.4)]"></div>
+</div>
+<div class="text-xs uppercase tracking-widest text-slate-500 font-bold">Current Mission Progress</div>
+</div>
+</div>
+<!-- Mission Sections -->
+<div class="space-y-20">
+<!-- Phase 1: Core Quests -->
+<section>
+<div class="flex items-end gap-4 mb-10">
+<h2 class="text-3xl font-bold text-on-surface">Quests: <span class="text-slate-500">Archives Phase</span></h2>
+<div class="h-[1px] flex-1 bg-white/5 mb-3"></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Quest Card 1 -->
+<div class="group relative bg-surface-container-high hover:bg-surface-container-highest p-1 rounded-[1.5rem] transition-all duration-300">
+<div class="bg-surface-container-high rounded-[1.4rem] p-8 h-full flex flex-col sm:flex-row gap-8 items-start">
+<div class="w-full sm:w-32 h-32 rounded-2xl overflow-hidden flex-shrink-0">
+<img alt="Archive Quiz" class="w-full h-full object-cover" data-alt="neatly stacked ancient leather-bound books in a misty library with light rays filtering through dusty air" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCghr7CwvkVyKwnFh65FLBQwmLYzqXR9KPdxSYibrTx9RMo16b-bpxQGcBPfagel6ZUy6b7PR8emokQc2-l83HBupp4ILQihs0bymumUxYVfSOx059TMSVF96LrIgd5bZYp6SnFemGcK0xMWmubdRb0jvIExKdbRnO8fyV_Yp3JuBchoZg4x-9YFsrO4eLn8IWpaY1FhLy29YuzfIoKypU_JSgOYNkNF_x6I8iSEEproJ2SEB6yaf5Bn73GQY7yoJ9Oid1ac-0ZFw"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="px-2 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-md uppercase tracking-wider mb-2 inline-block">Quiz Mission</span>
+<h3 class="text-xl font-bold text-on-surface">The Great Library Audit</h3>
+</div>
+<div class="text-right">
+<span class="text-secondary font-bold text-lg">+250</span>
+<div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Points</div>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Identify chronological anomalies within the digital archive. Requires level 2 clearance.</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<img alt="Participant 1" class="w-6 h-6 rounded-full border border-surface" data-alt="avatar of a user participant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH00utzXUG8_rjAy4da1G_-GEv6wNayTVMVhnD4n1RtboqlTWmbvA67bpRTFaa0s1KnV116nntQTT_QjuPAMBswTQw_evdgfwhLOO_T4aeY3Ud2GxuWLaabvlwSJ-L25Glo3QYIed67cxpiwcYRNWWBjXvWinwiUcyqNBJ5ZLz6qxpKtAtSTQBCwVA6yi_P8FPBFCLm6OMMHtWQ-u8cv5KocrDRgtz1tyBzCJuD5Crfg4YWY0sevO1FxqVSWvzEQzNgyC_rUevQQ"/>
+<img alt="Participant 2" class="w-6 h-6 rounded-full border border-surface" data-alt="avatar of a user participant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKCi0lUt-jCq2VpD7atyc1FbDUigCvzyIkSWPfwsxlri3rCz-yEEoC6Sz4RgXtPf9dvXP-M_Pvi1YiWGsD16P2lKWIByRAk2c8xBjl3YVoc9iMNiMV4hcjx8Rj8kKj-b5CfKbth8FopvIltCl0Qb_ajUwxnVB0f4I64NlXrvRh8paESYxpjYcl9nY6TvSrRMqLG9QtXu49VeEgZVdLkyYAi-Ht0agFpdhnZzvd9i1mNnrKVK014m84jmQq6k1UqpomAxzJAd3ghQ"/>
+<div class="w-6 h-6 rounded-full border border-surface bg-surface-container-highest flex items-center justify-center text-[8px] font-bold">+12</div>
+</div>
+<button class="text-primary font-bold text-sm uppercase tracking-widest flex items-center gap-2 hover:translate-x-1 transition-transform">
+                                        Commence <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Quest Card 2 -->
+<div class="group relative bg-surface-container-high hover:bg-surface-container-highest p-1 rounded-[1.5rem] transition-all duration-300">
+<div class="bg-surface-container-high rounded-[1.4rem] p-8 h-full flex flex-col sm:flex-row gap-8 items-start">
+<div class="w-full sm:w-32 h-32 rounded-2xl overflow-hidden flex-shrink-0">
+<img alt="Archive Workshop" class="w-full h-full object-cover" data-alt="high-tech collaborative table with holographic data projections and people brainstorming in a futuristic laboratory" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjqrq9RiqCNgcSou8at2FDHI7MaCzMNwvONt_joHU4PDEU8tlOZ4R0V9u8DM-tnsMcw9gf8yA4_eoKjmQ6fLCARsmGCisT9nUUf7pTWI-4ysyPeipJ6VPybEHrxmx7jLZa3k3WDruwV1hNJQ8pP9ulRmX34nqNdzm-Hp8HcppsSliynCOV-IjioVspHeE6-h7TUHzub26ZUxLJZNRYeDONn1ELyKwD92HdPjWHTgoUN3CFoamO_0mmJ3-NA92jGN96sOGLuosMsQ"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="px-2 py-1 bg-tertiary/10 text-tertiary text-[10px] font-bold rounded-md uppercase tracking-wider mb-2 inline-block">Workshop</span>
+<h3 class="text-xl font-bold text-on-surface">Nebula Sync Workshop</h3>
+</div>
+<div class="text-right">
+<span class="text-secondary font-bold text-lg">+400</span>
+<div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Points</div>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Collaborative session on neural-link synchronization. Group activity only.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Oct 24, 14:00 UTC</span>
+</div>
+<button class="px-5 py-2 bg-on-surface text-surface rounded-lg font-bold text-xs uppercase tracking-widest transition-all hover:bg-primary active:scale-95">
+                                        Join Session
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Phase 2: Knowledge Synthesis -->
+<section>
+<div class="flex items-end gap-4 mb-10">
+<h2 class="text-3xl font-bold text-on-surface">Synthesis: <span class="text-slate-500">The Core</span></h2>
+<div class="h-[1px] flex-1 bg-white/5 mb-3"></div>
+</div>
+<div class="relative bg-surface-container-high rounded-[2rem] overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<img alt="Background Pattern" class="w-full h-full object-cover" data-alt="abstract cosmic pattern of nebula gases and distant stars in deep indigo and magenta tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWMFulg4dwaQx69JYpQ20icb4BS3pU5i2rpBNCBWv94Z8kHSKtC6y9SkaBxjHL7-nGNpiCu-tEjzF_Hed8hZn70c2v0hgbxkcBLDTrLJPec2VgIC8F4atDXmgjB_GS4JzaQCWrHLtuLfbXm50xh9rc7JYcpnP87IUBMk8SpY5AFDzEmn_K6Wvcen9tQ-mN5_Fg6RsAuNkyqq7Wf6PXtSK1vkfUjZHpTDZ2YuBw-5CWvKGAoMTm5TX_2w9TYeZkoFOtaE5OeHSCFQ"/>
+</div>
+<div class="relative p-10 md:p-16 flex flex-col md:flex-row items-center gap-12">
+<div class="flex-1">
+<span class="inline-block py-1 px-3 bg-secondary text-on-secondary text-xs font-bold rounded-full uppercase tracking-widest mb-6">Final Challenge</span>
+<h3 class="text-4xl font-bold text-on-surface mb-6 font-['Space_Grotesk'] leading-tight">Master of the Archival Void</h3>
+<p class="text-on-surface-variant text-lg mb-8 leading-relaxed">The ultimate synthesis of your journey on The Planet of Knowledge. Prove your mastery by restructuring the broken data crystals of the central vault.</p>
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="bg-surface-container-lowest/50 p-4 rounded-xl border border-white/5">
+<div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Reward</div>
+<div class="text-primary font-bold text-lg">Knowledge Crest</div>
+</div>
+<div class="bg-surface-container-lowest/50 p-4 rounded-xl border border-white/5">
+<div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">XP Bonus</div>
+<div class="text-secondary font-bold text-lg">+1,500 XP</div>
+</div>
+</div>
+<button class="w-full sm:w-auto px-10 py-4 bg-primary text-on-primary rounded-xl font-bold text-lg transition-all hover:shadow-[0_0_20px_rgba(172,199,255,0.4)] active:scale-95">
+                                Initialize Synthesis
+                            </button>
+</div>
+<div class="w-64 h-64 md:w-80 md:h-80 relative flex-shrink-0">
+<div class="absolute inset-0 bg-tertiary/20 rounded-full blur-3xl"></div>
+<img alt="Crystal Artifact" class="w-full h-full object-contain relative z-10 drop-shadow-[0_0_30px_rgba(200,191,255,0.5)]" data-alt="glowing crystalline data core floating in a chamber with intricate futuristic laser grids focusing on it" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8HlS_bzbCyGOzx7BfWnzOuA2_0oALcKk9gXZL2Og-av2v6PxFZGtnv-vTyl4z1UfA8lhktVOV2D89iHvGne2AY12fNjYD3-pA4GXDLtnTKjOKMMsV06hOicLXbPRRWIlg2-5NrR8Y7GVwPS8HxU3l72wahA55TzIr4pyyWLpzQPkL8zN9d4vk1JEa5w-yAMAsVO7VHCCsLv4Ml4l4uGUpWnqrXDTJw_9w-fGyz2sUskMQw4Lu0jOVSdQuacNpFdP8Ns8isPFOmw"/>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-[#021425] backdrop-blur-xl bg-opacity-90 border-t border-white/10 px-4 h-16 flex items-center justify-around z-50">
+<a class="flex flex-col items-center justify-center gap-1 text-slate-400 active:text-primary" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Dash</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" data-weight="fill">rocket_launch</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Missions</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">public</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Crew</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Admin</span>
+</a>
+</nav>
+</body></html>
