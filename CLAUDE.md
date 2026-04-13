@@ -27,15 +27,15 @@ Galaxy Master is the **living back-office** of the gamification system — where
 ### Domain Glossary
 | Term | Definition |
 |------|-----------|
-| **Astronaute** | A company collaborator |
-| **Planète** | A team or squad |
-| **Contribution** | An action by a collaborator worth points (article, conference, workshop…) |
-| **Type de contribution** | Category of a contribution, with its point value |
-| **Engagement** | An internal event collaborators can attend |
-| **Grade** | Recognition level auto-assigned based on accumulated points |
-| **Points bonus** | Manually added/removed points for a team |
-| **Saison** | A defined period (e.g. a quarter) for calculating metrics |
-| **KPI** | Contribution types flagged for inclusion in performance reports |
+| **Astronaute** | An Eleven Labs employee |
+| **Planète** | A team (6 total: 4 main + newcomers + arbiters) |
+| **Contribution** | An action by an astronaut worth points (article, talk, workshop…) |
+| **Type de contribution** | Category with its fixed point value (see point grid in overview.md) |
+| **Engagement** | An internal event; attendance tracked but does NOT trigger points |
+| **Trophée** | Award assigned to an astronaut or planet |
+| **Grade** | Auto-assigned level based on total cumulative astronaut points (14 levels, see overview.md) |
+| **Points bonus** | Challenge ranking points or special awards |
+| **Saison** | September → September period; planet points reset each season, astronaut points never reset |
 
 ### User Roles
 | Role | Permissions |
@@ -44,6 +44,12 @@ Galaxy Master is the **living back-office** of the gamification system — where
 | **Observateur** | Read-only across all data, no create/edit/delete UI |
 
 **Critical rule**: The app is entirely private. No public pages exist.
+
+### The 6 Planets
+4 main planets compete in the global ranking. Planet 5 = newcomers (pre-assignment). Planet 6 = arbiters (no competition).
+
+### Authentication
+**Google OAuth 2.0 only** — no email/password login. Supabase Auth with Google provider.
 
 ## Tech Stack
 - Language: JavaScript (JSX)
@@ -156,18 +162,42 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 ## Project-Specific Patterns
 
 ### Authentication
-- Use Supabase Auth (email/password)
+- **Google OAuth 2.0 only** via Supabase Auth Google provider
 - Server-side session management via Next.js middleware
-- Role stored in `profiles` table, checked server-side for all mutations
+- Role (`admin` | `observer`) stored in `profiles` table, checked server-side for all mutations
 - Observers see read-only UI — no create/edit/delete buttons rendered at all
 
 ### Points Calculation
-- Points are NEVER manually entered — always derived from `contribution_type.points`
-- Team total = sum of member contributions + bonus points
-- Grade calculated automatically on every contribution create/delete
-- Season filter applied automatically when a season is active
+- Points are NEVER manually entered — always derived from the contribution type's base value
+- Special multipliers: first-ever contribution = ×2; first contribution of season = +25 bonus
+- **Astronaut points**: cumulative lifetime total, NEVER reset
+- **Planet points**: sum of member contributions in current season, reset each new season
+- Grade recalculates on every contribution create/delete (based on lifetime astronaut points)
+- Challenge ranking points (1st=100, 2nd=75, 3rd=50, 4th=25) are contribution types
+- Event attendance: tracked in separate interface, does NOT generate points
+
+### Season Rules
+- Planet points reset to 0 at season start; astronaut lifetime points are untouched
+- Only one active season at a time; activating one auto-deactivates the previous
+- Active season cannot be deleted
+
+### Grade System
+- 14 grades from Rookie (0pts) to Fleet Admiral ★★★ (15000pts) — see `_project_specs/overview.md`
+- Grade is auto-assigned based on astronaut's total lifetime points
+
+### Trophy System
+- Trophies can be assigned to an astronaut or a planet
+- Trophy assignment triggers a Slack webhook notification
+
+### Slack Webhooks
+- Fire on: contribution recorded, trophy assigned
+- Configured via environment variable `SLACK_WEBHOOK_URL`
 
 ### Data Deletion Rules
-- Deactivating a collaborator or team NEVER deletes historical data
+- Deactivating an astronaut or planet NEVER deletes historical data
 - Active season cannot be deleted
-- Only one season can be active at a time (activating one auto-deactivates previous)
+- Newcomer planet (planet 5) and Arbiter planet (planet 6) are not deletable
+
+### Event Participation Interface
+- Dedicated UI: search bar + photo list for selecting astronauts
+- Lives in back-office but does NOT trigger points — purely attendance tracking
