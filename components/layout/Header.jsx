@@ -28,8 +28,8 @@ export default function Header({ user, title }) {
             </span>
             {user.avatar_url ? (
               <img src={user.avatar_url} alt={user.full_name || 'Avatar'}
-                   className="w-8 h-8 rounded-full object-cover ring-2"
-                   style={{ ringColor: 'var(--color-primary)' }} />
+                   className="w-8 h-8 rounded-full object-cover"
+                   style={{ boxShadow: '0 0 0 2px var(--color-primary)' }} />
             ) : (
               <div className="w-8 h-8 rounded-full flex items-center justify-center"
                    style={{ background: 'var(--color-primary-container)' }}>
