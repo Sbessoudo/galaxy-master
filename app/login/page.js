@@ -1,10 +1,15 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 
-export default async function LoginPage() {
+export default async function LoginPage({ searchParams }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (user) redirect('/')
+
+  const params = await searchParams
+  const errorMsg = params?.error === 'oauth' ? 'Erreur lors de la connexion Google. Réessaie.'
+    : params?.error === 'callback' ? 'Erreur d\'authentification. Réessaie.'
+    : null
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden"
@@ -38,6 +43,13 @@ export default async function LoginPage() {
           <p className="text-center mb-6" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-on-surface-variant)', fontSize: '0.875rem' }}>
             Connecte-toi avec ton compte Google Eleven Labs pour accéder au back-office.
           </p>
+
+          {errorMsg && (
+            <div className="mb-4 px-4 py-3 rounded-xl text-sm text-center"
+                 style={{ background: 'var(--color-error-container)', color: 'var(--color-error)', fontFamily: 'var(--font-body)' }}>
+              {errorMsg}
+            </div>
+          )}
 
           <form action="/auth/google" method="post">
             <button type="submit"
