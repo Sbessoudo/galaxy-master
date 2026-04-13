@@ -1,0 +1,41 @@
+# Environment files - NEVER commit
+.env
+.env.*
+!.env.example
+
+# Secrets
+*.pem
+*.key
+*.p12
+credentials.json
+secrets.json
+service-account*.json
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Build outputs
+.next/
+dist/
+build/
+out/
+
+# Code graph data (auto-generated, machine-specific)
+.code-graph/
+
+# IDE
+.idea/
+.vscode/settings.json
+.DS_Store
+
+# Supabase
+supabase/.branches
+supabase/.temp
+
+# Next.js
+.next/
+*.next
