@@ -32,8 +32,8 @@ export async function middleware(request) {
 
   const { pathname } = request.nextUrl
 
-  // Public routes — only the login page
-  const isPublicRoute = pathname.startsWith('/login') || pathname.startsWith('/auth')
+  // Public routes — exact match for login, prefix for auth sub-routes
+  const isPublicRoute = pathname === '/login' || pathname.startsWith('/auth/')
 
   // Not authenticated → redirect to login
   if (!user && !isPublicRoute) {
