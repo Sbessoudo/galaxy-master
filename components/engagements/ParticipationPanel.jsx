@@ -17,7 +17,7 @@ async function apiToggle(eventId, astronautId) {
 // ── Astronaut chip ─────────────────────────────────────────────────────────
 function AstronautChip({ astronaut, present, loading, isAdmin, onToggle }) {
   const color    = astronaut.planets?.color ?? 'var(--color-on-surface-variant)'
-  const initials = `${(astronaut.first_name || '?')[0]}${(astronaut.last_name || '')[0]}`
+  const initials = `${astronaut.first_name?.[0] ?? '?'}${astronaut.last_name?.[0] ?? ''}`
 
   return (
     <button
@@ -188,10 +188,12 @@ export default function ParticipationPanel({ eventId, astronautes, presentIds, i
   const [loading, setLoading] = useState(() => new Set())
   const [search,  setSearch]  = useState('')
   const [filter,  setFilter]  = useState('tous') // 'tous' | 'présents' | 'absents'
+  const [apiError, setApiError] = useState(null)
 
   // Toggle a single astronaut
   const toggle = useCallback(async (id) => {
     if (!isAdmin) return
+    setApiError(null)
     setLoading(l => new Set(l).add(id))
     try {
       const data = await apiToggle(eventId, id)
@@ -200,30 +202,37 @@ export default function ParticipationPanel({ eventId, astronautes, presentIds, i
         data.present ? next.add(id) : next.delete(id)
         return next
       })
+      router.refresh()
+    } catch {
+      setApiError('Erreur lors de la mise à jour — réessayez.')
     } finally {
       setLoading(l => { const n = new Set(l); n.delete(id); return n })
     }
-    router.refresh()
   }, [eventId, isAdmin, router])
 
-  // Bulk toggle (whole planet) — parallel API calls
+  // Bulk toggle (whole planet) — parallel calls, apply only successes
   const bulkToggle = useCallback(async (ids, targetState) => {
     if (!isAdmin) return
     const toChange = ids.filter(id => present.has(id) !== targetState)
     if (!toChange.length) return
 
+    setApiError(null)
     setLoading(l => { const n = new Set(l); toChange.forEach(id => n.add(id)); return n })
     try {
-      await Promise.all(toChange.map(id => apiToggle(eventId, id)))
+      const results = await Promise.allSettled(toChange.map(id => apiToggle(eventId, id)))
+      const succeeded = toChange.filter((_, i) => results[i].status === 'fulfilled')
+      const failed    = toChange.length - succeeded.length
+
       setPresent(prev => {
         const next = new Set(prev)
-        toChange.forEach(id => targetState ? next.add(id) : next.delete(id))
+        succeeded.forEach(id => targetState ? next.add(id) : next.delete(id))
         return next
       })
+      if (failed > 0) setApiError(`${failed} mise(s) à jour ont échoué.`)
+      router.refresh()
     } finally {
       setLoading(l => { const n = new Set(l); toChange.forEach(id => n.delete(id)); return n })
     }
-    router.refresh()
   }, [eventId, isAdmin, present, router])
 
   // Group astronauts by planet
@@ -355,8 +364,20 @@ export default function ParticipationPanel({ eventId, astronautes, presentIds, i
         ))
       )}
 
-      {/* Spin keyframe */}
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      {/* API error banner */}
+      {apiError && (
+        <div style={{
+          marginTop: '0.75rem', padding: '0.6rem 0.75rem', borderRadius: '0.6rem',
+          background: 'rgb(255 80 80 / 0.1)', border: '1px solid rgb(255 80 80 / 0.25)',
+          display: 'flex', alignItems: 'center', gap: '0.5rem',
+        }}>
+          <span className="material-symbols-outlined" style={{ fontSize: '0.9rem', color: '#ff5050' }}>error</span>
+          <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.75rem', color: '#ff8080', flex: 1 }}>{apiError}</p>
+          <button onClick={() => setApiError(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.4)', display: 'flex' }}>
+            <span className="material-symbols-outlined" style={{ fontSize: '0.9rem' }}>close</span>
+          </button>
+        </div>
+      )}
     </div>
   )
 }

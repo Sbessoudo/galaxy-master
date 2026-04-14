@@ -236,6 +236,8 @@
     margin: 0 0.5rem;
   }
 
+  @keyframes spin { to { transform: rotate(360deg); } }
+
   /* Crew row hover (planet detail page) */
   .crew-row {
     transition: background 0.15s;
