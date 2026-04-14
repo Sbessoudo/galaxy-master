@@ -28,7 +28,7 @@ export default async function EngagementDetailPage({ params }) {
   const [{ data: astronautes }, { data: participants }] = await Promise.all([
     supabase
       .from('astronauts')
-      .select('id, first_name, last_name, planets(name, color)')
+      .select('id, first_name, last_name, photo_url, planet_id, planets(id, name, color)')
       .eq('active', true)
       .order('last_name'),
     supabase
