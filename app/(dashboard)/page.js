@@ -37,30 +37,31 @@ export default async function DashboardPage() {
     const [
       { count: contribCount },
       { data: contributions },
-      { count: eventCount },
-      { count: participations },
+      { data: seasonEvents },
     ] = await Promise.all([
       supabase.from('contributions').select('*', { count: 'exact', head: true }).eq('season_id', activeSeason.id),
       supabase.from('contributions')
         .select('astronaut_id, points_awarded, type_id, contribution_types(name, category)')
         .eq('season_id', activeSeason.id),
-      supabase.from('events').select('*', { count: 'exact', head: true }).eq('season_id', activeSeason.id),
-      supabase.from('event_participants').select('event_id', { count: 'exact', head: true }),
+      supabase.from('events').select('id').eq('season_id', activeSeason.id),
     ])
 
     contributionCount = contribCount ?? 0
+    const eventCount  = seasonEvents?.length ?? 0
 
-    // Engagement rate = % d'astronautes ayant assisté à ≥ 50% des events
-    if ((eventCount ?? 0) > 0 && (astronautCount ?? 0) > 0) {
+    // Engagement rate = % d'astronautes ayant assisté à ≥ 50% des events de la saison
+    if (eventCount > 0 && (astronautCount ?? 0) > 0) {
+      const seasonEventIds = (seasonEvents ?? []).map(e => e.id)
       const { data: parts } = await supabase
         .from('event_participants')
         .select('astronaut_id')
+        .in('event_id', seasonEventIds)
       const countByAstro = {}
       for (const p of (parts ?? [])) {
         countByAstro[p.astronaut_id] = (countByAstro[p.astronaut_id] ?? 0) + 1
       }
       const engagedCount = Object.values(countByAstro)
-        .filter(n => n / (eventCount ?? 1) >= 0.5).length
+        .filter(n => n / eventCount >= 0.5).length
       engagementRate = Math.round((engagedCount / (astronautCount ?? 1)) * 100)
     }
 

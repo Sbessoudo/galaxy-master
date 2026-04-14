@@ -123,7 +123,7 @@ export default async function HubAstronauteDetailPage({ params, searchParams }) 
             <div className="w-32 h-32 rounded-2xl flex items-center justify-center"
                  style={{ background: `${color}20`, border: `3px solid ${color}40` }}>
               <span style={{ fontFamily: 'var(--font-headline)', fontWeight: 900, fontSize: '3rem', color }}>
-                {astronaut.first_name[0]}{astronaut.last_name[0]}
+                {(astronaut.first_name || '?')[0]}{(astronaut.last_name || '')[0]}
               </span>
             </div>
           )}

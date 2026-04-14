@@ -70,7 +70,7 @@ export default function AstronautSearch({ astronauts }) {
       setActiveIdx(-1)
     } else if (e.key === 'Enter' && activeIdx >= 0) {
       e.preventDefault()
-      window.location.href = href(suggestions[activeIdx].id)
+      router.push(href(suggestions[activeIdx].id))
     }
   }
 
