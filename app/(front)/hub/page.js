@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import Image from 'next/image'
+import { Suspense } from 'react'
 import SolarSystem from '@/components/hub/SolarSystem'
 
 export const dynamic = 'force-dynamic'
@@ -43,8 +44,10 @@ export default async function HubPage() {
         </p>
       </div>
 
-      {/* Solar system */}
-      <SolarSystem planets={mainPlanets} activeSeason={activeSeason} />
+      {/* Solar system — Suspense required by useSearchParams() inside */}
+      <Suspense fallback={<div style={{ height: '400px' }} />}>
+        <SolarSystem planets={mainPlanets} activeSeason={activeSeason} />
+      </Suspense>
 
       {/* Other planets (newcomers, arbiters) */}
       {otherPlanets.length > 0 && (

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
@@ -37,11 +37,16 @@ export default function SolarSystem({ planets, activeSeason }) {
   const previewId    = searchParams.get('preview')
   const planetHref   = (id) => previewId ? `/hub/planetes/${id}?preview=${previewId}` : `/hub/planetes/${id}`
 
-  const ranked = [...planets].sort((a, b) => {
-    const pA = activeSeason ? (a.planet_season_points?.find(p => p.season_id === activeSeason.id)?.total_points ?? 0) : 0
-    const pB = activeSeason ? (b.planet_season_points?.find(p => p.season_id === activeSeason.id)?.total_points ?? 0) : 0
-    return pB - pA
-  })
+  const ranked = useMemo(() =>
+    [...planets]
+      .map(p => ({
+        ...p,
+        _pts: activeSeason
+          ? (p.planet_season_points?.find(sp => sp.season_id === activeSeason.id)?.total_points ?? 0)
+          : 0,
+      }))
+      .sort((a, b) => b._pts - a._pts),
+  [planets, activeSeason])
 
   return (
     <div>
@@ -64,11 +69,11 @@ export default function SolarSystem({ planets, activeSeason }) {
           {/* SVG: orbit rings (circles in a square viewBox → always round) */}
           <svg
             viewBox="0 0 900 900"
-            preserveAspectRatio="none"
+            preserveAspectRatio="xMidYMid meet"
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
           >
             {ORBIT_CONFIG.map((cfg, i) => (
-              <circle key={i}
+              <circle key={cfg.orbitR}
                 cx={CX} cy={CY} r={cfg.orbitR}
                 fill="none"
                 stroke={ranked[i] ? `${ranked[i].color}22` : 'rgba(255,255,255,0.06)'}
@@ -103,9 +108,7 @@ export default function SolarSystem({ planets, activeSeason }) {
             const px  = CX + cfg.orbitR * Math.sin(rad)
             const py  = CY - cfg.orbitR * Math.cos(rad)
 
-            const pts   = activeSeason
-              ? (planet.planet_season_points?.find(sp => sp.season_id === activeSeason.id)?.total_points ?? 0)
-              : 0
+            const pts   = planet._pts
             const isHov = hovered === planet.id
 
             return (
