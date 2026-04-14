@@ -1,15 +1,23 @@
 import { createClient } from '@/lib/supabase/server'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 export default async function HubPlaneteDetailPage({ params, searchParams }) {
   const { id }    = await params
   const previewId = (await searchParams)?.preview ?? null
   const backHref  = previewId ? `/hub?preview=${previewId}` : '/hub'
 
+  if (!UUID_RE.test(id)) notFound()
+
   const supabase = await createClient()
+
+  // Auth: also checked in (front)/layout.js, kept here for defense-in-depth
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
 
   const [
     { data: planet },
@@ -39,7 +47,7 @@ export default async function HubPlaneteDetailPage({ params, searchParams }) {
   const color   = planet.color ?? 'var(--color-primary)'
   const members = astronauts ?? []
 
-  const topPts = members[0]?.total_points ?? 1
+  const topPts = members[0]?.total_points || 1
 
   const astronautHref = (aId) => previewId
     ? `/hub/astronautes/${aId}?preview=${previewId}`
@@ -204,7 +212,7 @@ export default async function HubPlaneteDetailPage({ params, searchParams }) {
                     {t.trophy_types?.name}
                   </p>
                   <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.58rem', color: 'var(--color-on-surface-variant)' }}>
-                    {new Date(t.awarded_at).toLocaleDateString('fr-FR')}
+                    {t.awarded_at ? new Date(t.awarded_at).toLocaleDateString('fr-FR') : '—'}
                   </p>
                   {t.notes && (
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem', color: 'var(--color-on-surface-variant)', fontStyle: 'italic', marginTop: '0.15rem' }}>
@@ -277,7 +285,7 @@ export default async function HubPlaneteDetailPage({ params, searchParams }) {
                   }}>
                     {a.photo_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={a.photo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={a.photo_url} alt={`${a.first_name} ${a.last_name}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
                       <span style={{ fontFamily: 'var(--font-headline)', fontWeight: 800, fontSize: '0.8rem', color }}>
                         {initials}
