@@ -16,11 +16,11 @@ export default async function HubPlaneteDetailPage({ params, searchParams }) {
   const supabase = await createClient()
 
   // Auth: also checked in (front)/layout.js, kept here for defense-in-depth
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
+  const { data: authData, error: authError } = await supabase.auth.getUser()
+  if (authError || !authData?.user) redirect('/login')
 
   const [
-    { data: planet },
+    { data: planet, error: planetError },
     { data: activeSeason },
   ] = await Promise.all([
     supabase
@@ -31,6 +31,9 @@ export default async function HubPlaneteDetailPage({ params, searchParams }) {
     supabase.from('seasons').select('id, name').eq('active', true).single(),
   ])
 
+  // PGRST116 = row not found → 404; other errors → throw (500)
+  if (planetError?.code === 'PGRST116') notFound()
+  if (planetError) throw planetError
   if (!planet) notFound()
 
   const { data: astronauts } = await supabase
@@ -47,7 +50,7 @@ export default async function HubPlaneteDetailPage({ params, searchParams }) {
   const color   = planet.color ?? 'var(--color-primary)'
   const members = astronauts ?? []
 
-  const topPts = members[0]?.total_points || 1
+  const topPts = Math.max(1, members[0]?.total_points ?? 0)
 
   const astronautHref = (aId) => previewId
     ? `/hub/astronautes/${aId}?preview=${previewId}`
@@ -253,17 +256,14 @@ export default async function HubPlaneteDetailPage({ params, searchParams }) {
 
               return (
                 <Link key={a.id} href={astronautHref(a.id)}
-                      className="group"
+                      className="crew-row"
                       style={{
                         display: 'flex', alignItems: 'center', gap: '0.75rem',
                         padding: '0.65rem 0.75rem',
                         borderRadius: '0.75rem',
                         textDecoration: 'none',
-                        transition: 'background 0.15s',
                         borderTop: i > 0 ? '1px solid rgb(255 255 255 / 0.03)' : 'none',
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.background = 'var(--color-surface-container-highest)'}
-                      onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                      }}>
 
                   {/* Rank */}
                   <span style={{
@@ -295,7 +295,7 @@ export default async function HubPlaneteDetailPage({ params, searchParams }) {
 
                   {/* Name + bar */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5 mb-1">
+                    <div className="flex items-center gap-1.5 mb-0.5">
                       <p style={{ fontFamily: 'var(--font-label)', fontWeight: 700, fontSize: '0.82rem', color: 'var(--color-on-surface)' }}
                          className="truncate">
                         {a.first_name} {a.last_name}
@@ -304,6 +304,12 @@ export default async function HubPlaneteDetailPage({ params, searchParams }) {
                         <span style={{ fontSize: '0.85rem', flexShrink: 0, lineHeight: 1 }}>{a.grades.icon}</span>
                       )}
                     </div>
+                    {a.role_title && (
+                      <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.6rem', color: 'var(--color-on-surface-variant)', marginBottom: '0.25rem' }}
+                         className="truncate">
+                        {a.role_title}
+                      </p>
+                    )}
                     {/* Progress bar */}
                     <div style={{ height: '3px', borderRadius: '999px', background: 'rgb(255 255 255 / 0.06)', overflow: 'hidden' }}>
                       <div style={{

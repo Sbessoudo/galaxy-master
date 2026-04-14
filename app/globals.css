@@ -236,6 +236,14 @@
     margin: 0 0.5rem;
   }
 
+  /* Crew row hover (planet detail page) */
+  .crew-row {
+    transition: background 0.15s;
+  }
+  .crew-row:hover {
+    background: var(--color-surface-container-highest) !important;
+  }
+
   /* Progress bar */
   .progress-track {
     width: 100%;
