@@ -163,7 +163,7 @@ export default async function HubAstronauteDetailPage({ params, searchParams }) 
             {/* Points */}
             <div className="text-right flex-shrink-0 ml-4">
               <p style={{ fontFamily: 'var(--font-headline)', fontSize: '2.5rem', fontWeight: 900, color, lineHeight: 1 }}>
-                {astronaut.total_points.toLocaleString('fr-FR')}
+                {(astronaut.total_points ?? 0).toLocaleString('fr-FR')}
               </p>
               <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.55rem', color: 'var(--color-on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                 pts totaux

@@ -16,8 +16,12 @@ export default async function HubPage() {
       .order('sort_order', { ascending: true }),
   ])
 
-  const mainPlanets = (planets ?? []).filter(p => p.type === 'main')
-  const otherPlanets = (planets ?? []).filter(p => p.type !== 'main')
+  const withCount = (planets ?? []).map(p => ({
+    ...p,
+    memberCount: p.astronauts?.[0]?.count ?? 0,
+  }))
+  const mainPlanets  = withCount.filter(p => p.type === 'main')
+  const otherPlanets = withCount.filter(p => p.type !== 'main')
 
   return (
     <div className="px-6 pt-6 pb-8 max-w-7xl mx-auto">
@@ -50,7 +54,7 @@ export default async function HubPage() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {otherPlanets.map(planet => {
-              const memberCount = planet.astronauts?.[0]?.count ?? 0
+              const memberCount = planet.memberCount
               return (
                 <div key={planet.id} className="rounded-xl p-4 flex items-center gap-3"
                      style={{ background: 'var(--color-surface-container)', border: '1px solid rgb(255 255 255 / 0.04)' }}>

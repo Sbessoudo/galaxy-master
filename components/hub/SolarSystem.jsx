@@ -187,7 +187,7 @@ export default function SolarSystem({ planets, activeSeason }) {
                       {pts.toLocaleString('fr-FR')} pts
                     </p>
                     <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.6rem', color: 'rgba(255,255,255,0.5)', marginTop: '0.2rem' }}>
-                      {planet.astronauts?.[0]?.count ?? 0} astronautes
+                      {planet.memberCount ?? 0} astronautes
                     </p>
                   </div>
                 )}
@@ -204,7 +204,7 @@ export default function SolarSystem({ planets, activeSeason }) {
             ? (planet.planet_season_points?.find(sp => sp.season_id === activeSeason.id)?.total_points ?? 0)
             : 0
           const pct   = Math.round((pts / maxPts) * 100)
-          const count = planet.astronauts?.[0]?.count ?? 0
+          const count = planet.memberCount ?? 0
 
           return (
             <Link key={planet.id}
@@ -269,14 +269,16 @@ export default function SolarSystem({ planets, activeSeason }) {
   )
 }
 
+const STARS = Array.from({ length: 80 }, (_, i) => ({
+  id: i,
+  x: (i * 137.5) % 100,
+  y: (i * 97.3) % 100,
+  size: i % 5 === 0 ? 2.5 : i % 3 === 0 ? 1.5 : 1,
+  opacity: 0.15 + (i % 7) * 0.07,
+}))
+
 function Stars() {
-  const stars = Array.from({ length: 80 }, (_, i) => ({
-    id: i,
-    x: (i * 137.5) % 100,
-    y: (i * 97.3) % 100,
-    size: i % 5 === 0 ? 2.5 : i % 3 === 0 ? 1.5 : 1,
-    opacity: 0.15 + (i % 7) * 0.07,
-  }))
+  const stars = STARS
 
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>

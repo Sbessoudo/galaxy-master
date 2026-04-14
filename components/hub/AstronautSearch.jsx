@@ -166,7 +166,7 @@ export default function AstronautSearch({ astronauts }) {
                     <img src={a.photo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
                     <span style={{ fontFamily: 'var(--font-headline)', fontWeight: 800, fontSize: '0.7rem', color }}>
-                      {a.first_name[0]}{a.last_name?.[0] ?? ''}
+                      {a.first_name?.[0] ?? '?'}{a.last_name?.[0] ?? ''}
                     </span>
                   )}
                 </div>
