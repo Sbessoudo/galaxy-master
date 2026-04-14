@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Sidebar from '@/components/layout/Sidebar'
 import Header from '@/components/layout/Header'
+import Toaster from '@/components/ui/Toaster'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,6 +37,7 @@ export default async function DashboardLayout({ children }) {
           <div className="relative z-10 p-8">
             {children}
           </div>
+          <Toaster />
         </main>
       </div>
     </div>

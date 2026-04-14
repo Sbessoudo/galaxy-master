@@ -20,6 +20,7 @@ const configNav = [
   { href: '/config/saisons',        icon: 'calendar_month',label: 'Saisons' },
   { href: '/config/trophees',       icon: 'emoji_events',  label: 'Trophées' },
   { href: '/config/utilisateurs',   icon: 'manage_accounts',label: 'Utilisateurs' },
+  { href: '/config/webhooks',        icon: 'webhook',        label: 'Webhooks' },
 ]
 
 export default function Sidebar({ role }) {
@@ -32,13 +33,13 @@ export default function Sidebar({ role }) {
 
   return (
     <aside className="h-screen w-64 fixed left-0 top-0 flex flex-col z-50 overflow-y-auto"
-           style={{ background: '#021425' }}>
+           style={{ background: 'var(--color-surface-container-low)' }}>
 
       {/* Logo */}
       <div className="px-6 pt-6 pb-8">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center"
-               style={{ background: 'var(--color-primary)' }}>
+               style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-container))' }}>
             <span className="material-symbols-outlined"
                   style={{ color: 'var(--color-on-primary)', fontSize: '1.25rem' }}>
               rocket_launch
@@ -47,7 +48,7 @@ export default function Sidebar({ role }) {
           <div>
             <h1 className="text-base font-black leading-none"
                 style={{ fontFamily: 'var(--font-headline)', color: 'var(--color-on-surface)', letterSpacing: '0.1em' }}>
-              THE PLANETS
+              GALAXY MASTER
             </h1>
             <p className="text-[10px] mt-0.5"
                style={{ fontFamily: 'var(--font-label)', color: 'var(--color-on-surface-variant)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>

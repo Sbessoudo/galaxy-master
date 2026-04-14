@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import MagicLinkForm from '@/components/auth/MagicLinkForm'
 
 export const dynamic = 'force-dynamic'
 
@@ -9,19 +10,21 @@ export default async function LoginPage({ searchParams }) {
   if (user) redirect('/')
 
   const params = await searchParams
-  const errorMsg = params?.error === 'oauth' ? 'Erreur lors de la connexion Google. Réessaie.'
-    : params?.error === 'callback' ? 'Erreur d\'authentification. Réessaie.'
+  const errorMsg = params?.error === 'oauth'     ? 'Erreur lors de la connexion Google. Réessaie.'
+    : params?.error === 'callback'  ? 'Erreur d\'authentification. Réessaie.'
+    : params?.error === 'token'     ? 'Lien invalide ou expiré. Demande un nouveau lien.'
+    : params?.error === 'domain'    ? 'Adresse email non autorisée.'
     : null
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden"
          style={{ background: 'var(--color-background)' }}>
 
-      {/* Celestial orbs */}
       <div className="orb-primary w-[50%] h-[50%] top-[-10%] left-[-10%]" />
       <div className="orb-tertiary w-[40%] h-[40%] bottom-[-10%] right-[-5%]" />
 
       <div className="relative z-10 w-full max-w-sm px-6">
+
         {/* Logo */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-xxl mb-4"
@@ -40,22 +43,26 @@ export default async function LoginPage({ searchParams }) {
           </p>
         </div>
 
-        {/* Card */}
-        <div className="rounded-xl p-8" style={{ background: 'var(--color-surface-container-high)' }}>
-          <p className="text-center mb-6" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-on-surface-variant)', fontSize: '0.875rem' }}>
-            Connecte-toi avec ton compte Google Eleven Labs pour accéder au back-office.
+        {errorMsg && (
+          <div className="mb-4 px-4 py-3 rounded-xl text-sm text-center"
+               style={{ background: 'var(--color-error-container)', color: 'var(--color-error)', fontFamily: 'var(--font-body)' }}>
+            {errorMsg}
+          </div>
+        )}
+
+        {/* Admins — Google */}
+        <div className="rounded-xl p-6 mb-4" style={{ background: 'var(--color-surface-container-high)' }}>
+          <p className="text-center mb-1"
+             style={{ fontFamily: 'var(--font-label)', fontSize: '0.6rem', color: 'var(--color-on-surface-variant)', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700 }}>
+            Administrateurs
           </p>
-
-          {errorMsg && (
-            <div className="mb-4 px-4 py-3 rounded-xl text-sm text-center"
-                 style={{ background: 'var(--color-error-container)', color: 'var(--color-error)', fontFamily: 'var(--font-body)' }}>
-              {errorMsg}
-            </div>
-          )}
-
+          <p className="text-center mb-5"
+             style={{ fontFamily: 'var(--font-body)', color: 'var(--color-on-surface-variant)', fontSize: '0.8rem' }}>
+            Connexion avec ton compte Google Eleven Labs
+          </p>
           <form action="/auth/google" method="post">
             <button type="submit"
-                    className="w-full flex items-center justify-center gap-3 py-3 rounded-xxl font-bold transition-transform hover:scale-[1.02] active:scale-95"
+                    className="w-full flex items-center justify-center gap-3 py-3 rounded-xl font-bold transition-transform hover:scale-[1.02] active:scale-95"
                     style={{
                       background: 'var(--color-primary)',
                       color: 'var(--color-on-primary)',
@@ -73,9 +80,22 @@ export default async function LoginPage({ searchParams }) {
           </form>
         </div>
 
+        {/* Astronautes — Magic Link */}
+        <div className="rounded-xl p-6" style={{ background: 'var(--color-surface-container-high)' }}>
+          <p className="text-center mb-1"
+             style={{ fontFamily: 'var(--font-label)', fontSize: '0.6rem', color: 'var(--color-on-surface-variant)', letterSpacing: '0.15em', textTransform: 'uppercase', fontWeight: 700 }}>
+            Astronautes
+          </p>
+          <p className="text-center mb-5"
+             style={{ fontFamily: 'var(--font-body)', color: 'var(--color-on-surface-variant)', fontSize: '0.8rem' }}>
+            Reçois un lien de connexion par email
+          </p>
+          <MagicLinkForm />
+        </div>
+
         <p className="text-center mt-6 text-xs"
            style={{ fontFamily: 'var(--font-label)', color: 'var(--color-on-surface-variant)', letterSpacing: '0.05em' }}>
-          Accès réservé aux membres de l'équipe Eleven Labs
+          Accès réservé aux membres de l&apos;équipe Eleven Labs
         </p>
       </div>
     </div>

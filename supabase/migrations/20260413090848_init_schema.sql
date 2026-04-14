@@ -3,7 +3,7 @@
 -- Le Site des Planètes — Back-office for Eleven Labs gamification
 -- ============================================================
 
-create extension if not exists "uuid-ossp";
+-- gen_random_uuid() replaced by gen_random_uuid() (built-in since PG 13)
 
 -- ── profiles ─────────────────────────────────────────────────────────────────
 create table profiles (
@@ -18,7 +18,7 @@ create table profiles (
 
 -- ── planets ──────────────────────────────────────────────────────────────────
 create table planets (
-  id          uuid primary key default uuid_generate_v4(),
+  id          uuid primary key default gen_random_uuid(),
   name        text not null unique,
   description text,
   color       text not null default '#acc7ff',
@@ -31,7 +31,7 @@ create table planets (
 
 -- ── grades ───────────────────────────────────────────────────────────────────
 create table grades (
-  id          uuid primary key default uuid_generate_v4(),
+  id          uuid primary key default gen_random_uuid(),
   name        text not null unique,
   min_points  int not null unique,
   color       text not null default '#acc7ff',
@@ -58,7 +58,7 @@ insert into grades (name, min_points, color, icon, sort_order) values
 
 -- ── seasons ──────────────────────────────────────────────────────────────────
 create table seasons (
-  id          uuid primary key default uuid_generate_v4(),
+  id          uuid primary key default gen_random_uuid(),
   name        text not null,
   start_date  date not null,
   end_date    date not null,
@@ -71,7 +71,7 @@ create unique index seasons_one_active_idx on seasons (active) where (active = t
 
 -- ── astronauts ───────────────────────────────────────────────────────────────
 create table astronauts (
-  id           uuid primary key default uuid_generate_v4(),
+  id           uuid primary key default gen_random_uuid(),
   first_name   text not null,
   last_name    text not null,
   role_title   text,
@@ -87,7 +87,7 @@ create table astronauts (
 
 -- ── contribution_types ───────────────────────────────────────────────────────
 create table contribution_types (
-  id          uuid primary key default uuid_generate_v4(),
+  id          uuid primary key default gen_random_uuid(),
   name        text not null unique,
   description text,
   base_points int not null check (base_points >= 0),
@@ -120,7 +120,7 @@ insert into contribution_types (name, base_points, category) values
 
 -- ── contributions ────────────────────────────────────────────────────────────
 create table contributions (
-  id               uuid primary key default uuid_generate_v4(),
+  id               uuid primary key default gen_random_uuid(),
   astronaut_id     uuid not null references astronauts(id) on delete cascade,
   type_id          uuid not null references contribution_types(id) on delete restrict,
   season_id        uuid references seasons(id) on delete set null,
@@ -145,7 +145,7 @@ create table planet_season_points (
 
 -- ── bonus_points ─────────────────────────────────────────────────────────────
 create table bonus_points (
-  id          uuid primary key default uuid_generate_v4(),
+  id          uuid primary key default gen_random_uuid(),
   planet_id   uuid not null references planets(id) on delete cascade,
   season_id   uuid references seasons(id) on delete set null,
   points      int not null,
@@ -157,7 +157,7 @@ create table bonus_points (
 
 -- ── event_types ──────────────────────────────────────────────────────────────
 create table event_types (
-  id          uuid primary key default uuid_generate_v4(),
+  id          uuid primary key default gen_random_uuid(),
   name        text not null unique,
   description text,
   active      boolean not null default true,
@@ -175,7 +175,7 @@ insert into event_types (name) values
 
 -- ── events ───────────────────────────────────────────────────────────────────
 create table events (
-  id          uuid primary key default uuid_generate_v4(),
+  id          uuid primary key default gen_random_uuid(),
   name        text not null,
   date        date not null,
   type_id     uuid references event_types(id) on delete set null,
@@ -195,7 +195,7 @@ create table event_participants (
 
 -- ── trophy_types ─────────────────────────────────────────────────────────────
 create table trophy_types (
-  id          uuid primary key default uuid_generate_v4(),
+  id          uuid primary key default gen_random_uuid(),
   name        text not null unique,
   description text,
   icon        text not null default '🏆',
@@ -205,7 +205,7 @@ create table trophy_types (
 
 -- ── trophies ─────────────────────────────────────────────────────────────────
 create table trophies (
-  id           uuid primary key default uuid_generate_v4(),
+  id           uuid primary key default gen_random_uuid(),
   type_id      uuid not null references trophy_types(id) on delete restrict,
   astronaut_id uuid references astronauts(id) on delete cascade,
   planet_id    uuid references planets(id) on delete cascade,
@@ -343,9 +343,10 @@ create policy "admin profiles all" on profiles for all    using (current_user_ro
 
 -- Auto-create profile on first Google OAuth login
 create or replace function handle_new_user()
-returns trigger language plpgsql security definer as $$
+returns trigger language plpgsql security definer
+set search_path = public as $$
 begin
-  insert into profiles (id, email, full_name, avatar_url)
+  insert into public.profiles (id, email, full_name, avatar_url)
   values (
     new.id,
     new.email,

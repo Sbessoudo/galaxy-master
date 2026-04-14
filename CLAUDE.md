@@ -15,24 +15,24 @@ Read and follow these skills before writing any code:
 
 ## Project Overview
 
-**Galaxy Master** is the back-office administration tool for the Planets gamification platform. It allows administrators and observers to:
-- Record and track contributions (actions) of each collaborator (Astronaute)
-- Manage internal events (Engagements) and track team participation
-- Automatically calculate points, grades, and leaderboards
-- Analyze engagement in real-time via an analytics dashboard
+**Galaxy Master** = back-office admin tool for Planets gamification platform. Admins and observers can:
+- Record/track collaborator contributions (Astronaute actions)
+- Manage internal events (Engagements), track team participation
+- Auto-calculate points, grades, leaderboards
+- Analyze engagement via real-time dashboard
 - Configure game rules (contribution types, grade levels, seasons)
 
-Galaxy Master is the **living back-office** of the gamification system — where data is entered, rules are configured, and results are analyzed.
+Galaxy Master = **living back-office** — data entry, rule config, result analysis.
 
 ### Domain Glossary
 | Term | Definition |
 |------|-----------|
-| **Astronaute** | An Eleven Labs employee |
-| **Planète** | A team (6 total: 4 main + newcomers + arbiters) |
-| **Contribution** | An action by an astronaut worth points (article, talk, workshop…) |
-| **Type de contribution** | Category with its fixed point value (see point grid in overview.md) |
-| **Engagement** | An internal event; attendance tracked but does NOT trigger points |
-| **Trophée** | Award assigned to an astronaut or planet |
+| **Astronaute** | Eleven Labs employee |
+| **Planète** | Team (6 total: 4 main + newcomers + arbiters) |
+| **Contribution** | Astronaut action worth points (article, talk, workshop…) |
+| **Type de contribution** | Category with fixed point value (see point grid in overview.md) |
+| **Engagement** | Internal event; attendance tracked, does NOT trigger points |
+| **Trophée** | Award assigned to astronaut or planet |
 | **Grade** | Auto-assigned level based on total cumulative astronaut points (14 levels, see overview.md) |
 | **Points bonus** | Challenge ranking points or special awards |
 | **Saison** | September → September period; planet points reset each season, astronaut points never reset |
@@ -40,16 +40,16 @@ Galaxy Master is the **living back-office** of the gamification system — where
 ### User Roles
 | Role | Permissions |
 |------|-------------|
-| **Administrateur** | Full CRUD, configuration management, user management |
+| **Administrateur** | Full CRUD, config management, user management |
 | **Observateur** | Read-only across all data, no create/edit/delete UI |
 
-**Critical rule**: The app is entirely private. No public pages exist.
+**Critical rule**: App entirely private. No public pages.
 
 ### The 6 Planets
-4 main planets compete in the global ranking. Planet 5 = newcomers (pre-assignment). Planet 6 = arbiters (no competition).
+4 main planets compete in global ranking. Planet 5 = newcomers (pre-assignment). Planet 6 = arbiters (no competition).
 
 ### Authentication
-**Google OAuth 2.0 only** — no email/password login. Supabase Auth with Google provider.
+**Google OAuth 2.0 only** — no email/password. Supabase Auth with Google provider.
 
 ## Tech Stack
 - Language: JavaScript (JSX)
@@ -91,17 +91,17 @@ supabase db reset    # Reset local DB
 - `cahier-des-charges-galaxymaster.md` - Full functional spec (source of truth)
 
 ## Atomic Todos
-All work is tracked in `_project_specs/todos/`:
+Work tracked in `_project_specs/todos/`:
 - `active.md` - Current work
 - `backlog.md` - Future work
-- `completed.md` - Done (for reference)
+- `completed.md` - Done (reference)
 
-Every todo must have validation criteria and test cases.
+Every todo needs validation criteria and test cases.
 
 ## Session Management
 
 ### State Tracking
-Maintain session state in `_project_specs/session/`:
+Session state in `_project_specs/session/`:
 - `current-state.md` - Live session state (update every 15-20 tool calls)
 - `decisions.md` - Key architectural/implementation decisions (append-only)
 - `code-landmarks.md` - Important code locations for quick reference
@@ -109,10 +109,10 @@ Maintain session state in `_project_specs/session/`:
 
 ### Automatic Updates
 Update `current-state.md`:
-- After completing any todo item
+- After completing any todo
 - Every 15-20 tool calls during active work
-- Before any significant context shift
-- When encountering blockers
+- Before significant context shift
+- When hitting blockers
 
 ### Decision Logging
 Log to `decisions.md` when:
@@ -122,18 +122,18 @@ Log to `decisions.md` when:
 - Deviating from standard patterns
 
 ### Session Handoff
-When ending a session or approaching context limits, update current-state.md with:
-- What was completed this session
-- Current state of work
+Before ending session or hitting context limits, update current-state.md with:
+- What completed this session
+- Current work state
 - Immediate next steps (numbered, specific)
 - Open questions or blockers
-- Files to review first when resuming
+- Files to review first on resume
 
 ### Resuming Work
-When starting a new session:
+On new session:
 1. Read `_project_specs/session/current-state.md`
 2. Check `_project_specs/todos/active.md`
-3. Review recent entries in `decisions.md` if context needed
+3. Review recent `decisions.md` entries if context needed
 4. Continue from "Next Steps" in current-state.md
 
 ## Code Graph (MCP)
@@ -143,13 +143,13 @@ When starting a new session:
 - Graph data: `.code-graph/` (gitignored, auto-updated)
 
 **Usage Priority:**
-1. Graph first — use MCP graph tools for symbol search, dependency tracing, impact analysis
-2. File read second — only read full files when modifying code or needing full context
-3. Grep last — avoid grep when graph tools can answer faster
+1. Graph first — MCP graph tools for symbol search, dependency tracing, impact analysis
+2. File read second — only read full files when modifying or needing full context
+3. Grep last — avoid when graph tools answer faster
 
 ## Agent Teams (Default Workflow)
 
-This project uses Claude Code Agent Teams as the default development workflow.
+Project uses Claude Code Agent Teams as default dev workflow.
 
 ### Strict Pipeline (per feature)
 Spec > Spec Review > Tests > RED Verify > Implement > GREEN Verify > Validate > Code Review > Security Scan > Branch + PR
@@ -168,36 +168,36 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 - Observers see read-only UI — no create/edit/delete buttons rendered at all
 
 ### Points Calculation
-- Points are NEVER manually entered — always derived from the contribution type's base value
+- Points NEVER manually entered — always derived from contribution type's base value
 - Special multipliers: first-ever contribution = ×2; first contribution of season = +25 bonus
 - **Astronaut points**: cumulative lifetime total, NEVER reset
 - **Planet points**: sum of member contributions in current season, reset each new season
 - Grade recalculates on every contribution create/delete (based on lifetime astronaut points)
 - Challenge ranking points (1st=100, 2nd=75, 3rd=50, 4th=25) are contribution types
-- Event attendance: tracked in separate interface, does NOT generate points
+- Event attendance: tracked separately, does NOT generate points
 
 ### Season Rules
-- Planet points reset to 0 at season start; astronaut lifetime points are untouched
-- Only one active season at a time; activating one auto-deactivates the previous
+- Planet points reset to 0 at season start; astronaut lifetime points untouched
+- Only one active season at a time; activating one auto-deactivates previous
 - Active season cannot be deleted
 
 ### Grade System
 - 14 grades from Rookie (0pts) to Fleet Admiral ★★★ (15000pts) — see `_project_specs/overview.md`
-- Grade is auto-assigned based on astronaut's total lifetime points
+- Grade auto-assigned from astronaut's total lifetime points
 
 ### Trophy System
-- Trophies can be assigned to an astronaut or a planet
-- Trophy assignment triggers a Slack webhook notification
+- Trophies assignable to astronaut or planet
+- Trophy assignment triggers Slack webhook notification
 
 ### Slack Webhooks
 - Fire on: contribution recorded, trophy assigned
-- Configured via environment variable `SLACK_WEBHOOK_URL`
+- Configured via env var `SLACK_WEBHOOK_URL`
 
 ### Data Deletion Rules
-- Deactivating an astronaut or planet NEVER deletes historical data
+- Deactivating astronaut or planet NEVER deletes historical data
 - Active season cannot be deleted
-- Newcomer planet (planet 5) and Arbiter planet (planet 6) are not deletable
+- Newcomer planet (planet 5) and Arbiter planet (planet 6) not deletable
 
 ### Event Participation Interface
-- Dedicated UI: search bar + photo list for selecting astronauts
-- Lives in back-office but does NOT trigger points — purely attendance tracking
+- Dedicated UI: search bar + photo list for astronaut selection
+- Lives in back-office, does NOT trigger points — purely attendance tracking

@@ -4,9 +4,9 @@ export default function Header({ user, title }) {
   return (
     <header className="fixed top-0 right-0 left-64 z-40 h-16 flex items-center justify-between px-8"
             style={{
-              background: 'rgb(2 20 37 / 0.85)',
-              backdropFilter: 'blur(16px)',
-              borderBottom: '1px solid rgb(255 255 255 / 0.08)',
+              background: 'rgb(6 14 32 / 0.88)',
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 1px 0 0 rgb(255 255 255 / 0.05)',
             }}>
 
       {/* Page title (injected per page) */}
@@ -32,7 +32,7 @@ export default function Header({ user, title }) {
               <Image src={user.avatar_url} alt={user.full_name || 'Avatar'}
                      width={32} height={32}
                      className="rounded-full object-cover"
-                     style={{ boxShadow: '0 0 0 2px var(--color-primary)' }} />
+                     style={{ boxShadow: '0 0 0 2px var(--color-primary)', boxShadow: 'var(--shadow-glow-primary)' }} />
             ) : (
               <div className="w-8 h-8 rounded-full flex items-center justify-center"
                    style={{ background: 'var(--color-primary-container)' }}>
