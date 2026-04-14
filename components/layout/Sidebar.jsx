@@ -23,7 +23,7 @@ const configNav = [
   { href: '/config/webhooks',        icon: 'webhook',        label: 'Webhooks' },
 ]
 
-export default function Sidebar({ role }) {
+export default function Sidebar({ role, onClose }) {
   const pathname = usePathname()
 
   const isActive = (href) => {
@@ -32,12 +32,20 @@ export default function Sidebar({ role }) {
   }
 
   return (
-    <aside className="h-screen w-64 fixed left-0 top-0 flex flex-col z-50 overflow-y-auto"
+    <aside className="h-screen w-64 flex flex-col overflow-y-auto"
            style={{ background: 'var(--color-surface-container-low)' }}>
 
       {/* Logo */}
       <div className="px-6 pt-6 pb-8">
         <div className="flex items-center gap-3">
+          {/* Close button — mobile only */}
+          {onClose && (
+            <button onClick={onClose}
+                    className="lg:hidden absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center"
+                    style={{ background: 'var(--color-surface-container)', border: 'none', cursor: 'pointer' }}>
+              <span className="material-symbols-outlined" style={{ color: 'var(--color-on-surface-variant)', fontSize: '1rem' }}>close</span>
+            </button>
+          )}
           <div className="w-10 h-10 rounded-xl flex items-center justify-center"
                style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-container))' }}>
             <span className="material-symbols-outlined"

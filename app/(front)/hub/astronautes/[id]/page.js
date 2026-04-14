@@ -199,6 +199,11 @@ export default async function HubAstronauteDetailPage({ params, searchParams }) 
                   <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.6rem', color: 'var(--color-on-surface-variant)' }}>
                     {new Date(t.awarded_at).toLocaleDateString('fr-FR')}
                   </p>
+                  {t.notes && (
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', color: 'var(--color-on-surface-variant)', marginTop: '0.2rem', fontStyle: 'italic' }}>
+                      {t.notes}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}

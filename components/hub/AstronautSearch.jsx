@@ -1,19 +1,36 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 
 export default function AstronautSearch({ astronauts }) {
-  const [query, setQuery]         = useState('')
+  const searchParams = useSearchParams()
+  const router       = useRouter()
+  const previewId    = searchParams.get('preview')
+  const initialQ     = searchParams.get('q') ?? ''
+
+  const [query, setQuery]         = useState(initialQ)
   const [open, setOpen]           = useState(false)
   const [activeIdx, setActiveIdx] = useState(-1)
   const inputRef = useRef(null)
   const listRef  = useRef(null)
-  const searchParams = useSearchParams()
-  const previewId    = searchParams.get('preview')
 
   const href = (id) => previewId ? `/hub/astronautes/${id}?preview=${previewId}` : `/hub/astronautes/${id}`
+
+  // Sync query to URL (debounced)
+  const syncUrl = useCallback((q) => {
+    const params = new URLSearchParams(searchParams.toString())
+    if (q) params.set('q', q)
+    else params.delete('q')
+    router.replace(`/hub/astronautes?${params.toString()}`, { scroll: false })
+  }, [router, searchParams])
+
+  // Debounce URL sync
+  useEffect(() => {
+    const t = setTimeout(() => syncUrl(query.trim()), 300)
+    return () => clearTimeout(t)
+  }, [query, syncUrl])
 
   const q = query.trim().toLowerCase()
   const suggestions = q.length < 1 ? [] : astronauts.filter(a => {
@@ -22,6 +39,12 @@ export default function AstronautSearch({ astronauts }) {
     const planet = (a.planets?.name ?? '').toLowerCase()
     return full.includes(q) || role.includes(q) || planet.includes(q)
   }).slice(0, 8)
+
+  // Open dropdown if initial query from URL
+  useEffect(() => {
+    if (initialQ) setOpen(true)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Close on outside click
   useEffect(() => {
@@ -89,7 +112,7 @@ export default function AstronautSearch({ astronauts }) {
         />
         {query && (
           <button
-            onClick={() => { setQuery(''); setOpen(false); setActiveIdx(-1); inputRef.current?.focus() }}
+            onClick={() => { setQuery(''); setOpen(false); setActiveIdx(-1); syncUrl(''); inputRef.current?.focus() }}
             style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-on-surface-variant)', display: 'flex', padding: 0 }}>
             <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>close</span>
           </button>

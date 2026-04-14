@@ -43,7 +43,7 @@ export default function SolarSystem({ planets, activeSeason }) {
     <div style={{ width: '100%', display: 'flex', gap: '1.5rem', alignItems: 'stretch' }}>
 
       {/* Solar system canvas */}
-      <div style={{ position: 'relative', flex: '1 1 0', minWidth: 0, paddingBottom: '68.89%', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', flex: '1 1 0', minWidth: 0, paddingBottom: '68.89%', overflow: 'visible' }}>
         <div style={{ position: 'absolute', inset: 0 }}>
 
           {/* Stars */}

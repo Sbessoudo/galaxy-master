@@ -107,7 +107,8 @@ export default async function HubAstronautesPage({ searchParams }) {
 
                   {/* Info */}
                   <div className="p-3">
-                    <p style={{ fontFamily: 'var(--font-label)', fontWeight: 700, fontSize: '0.8rem', color: 'var(--color-on-surface)', lineHeight: 1.2 }}>
+                    <p style={{ fontFamily: 'var(--font-label)', fontWeight: 700, fontSize: '0.8rem', color: 'var(--color-on-surface)', lineHeight: 1.2 }}
+                       className="truncate">
                       {a.first_name} {a.last_name}
                     </p>
                     {a.role_title && (

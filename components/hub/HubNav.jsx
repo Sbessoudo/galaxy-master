@@ -24,15 +24,15 @@ export default function HubNav() {
           <Link key={href} href={finalHref}
                 style={{
                   display: 'flex', alignItems: 'center', gap: '0.4rem',
-                  padding: '0.4rem 0.85rem', borderRadius: '0.6rem',
+                  padding: '0.4rem 0.6rem', borderRadius: '0.6rem',
                   textDecoration: 'none', fontSize: '0.78rem',
                   fontFamily: 'var(--font-label)', fontWeight: active ? 700 : 500,
                   color: active ? 'var(--color-on-surface)' : 'var(--color-on-surface-variant)',
                   background: active ? 'var(--color-surface-container-high)' : 'transparent',
                   transition: 'all 0.15s',
                 }}>
-            <span className="material-symbols-outlined" style={{ fontSize: '0.9rem' }}>{icon}</span>
-            {label}
+            <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>{icon}</span>
+            <span className="hidden sm:inline">{label}</span>
           </Link>
         )
       })}

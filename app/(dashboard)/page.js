@@ -6,6 +6,11 @@ export const dynamic = 'force-dynamic'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  const { data: profile } = user
+    ? await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle()
+    : { data: null }
+  const isAdmin = profile?.role === 'admin'
 
   // Base data in parallel
   const [
@@ -92,7 +97,6 @@ export default async function DashboardPage() {
       }
       typeBreakdown = Object.values(byType)
         .sort((a, b) => b.pts - a.pts)
-        .slice(0, 8)
     }
   }
 
@@ -237,8 +241,8 @@ export default async function DashboardPage() {
           )}
         </div>
 
-        {/* Quick actions */}
-        <div className="rounded-xl p-5"
+        {/* Quick actions — admins only */}
+        {isAdmin && <div className="rounded-xl p-5"
              style={{ background: 'var(--color-surface-container)', borderTop: '2px solid var(--color-primary)' }}>
           <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.6rem', color: 'var(--color-on-surface-variant)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
             Actions rapides
@@ -263,7 +267,7 @@ export default async function DashboardPage() {
               </Link>
             ))}
           </div>
-        </div>
+        </div>}
 
       </div>
 
