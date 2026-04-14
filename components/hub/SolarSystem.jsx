@@ -28,11 +28,13 @@ const STARS = Array.from({ length: 90 }, (_, i) => ({
   opacity: 0.10 + (i % 7) * 0.055,
 }))
 
-export default function SolarSystem({ planets, activeSeason }) {
+export default function SolarSystem({ planets = [], activeSeason }) {
   const [hovered, setHovered] = useState(null)
   const searchParams = useSearchParams()
   const previewId    = searchParams.get('preview')
-  const planetHref   = (id) => previewId ? `/hub/planetes/${id}?preview=${previewId}` : `/hub/planetes/${id}`
+  const planetHref   = (id) => previewId
+    ? `/hub/planetes/${id}?preview=${encodeURIComponent(previewId)}`
+    : `/hub/planetes/${id}`
 
   const ranked = useMemo(() =>
     [...planets]
@@ -174,7 +176,7 @@ export default function SolarSystem({ planets, activeSeason }) {
                         transition: 'box-shadow 0.25s',
                         flexShrink: 0,
                       }}>
-                        {planet.photo_url && (
+                        {planet.photo_url?.startsWith('https://') && (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={planet.photo_url} alt={planet.name}
                                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
