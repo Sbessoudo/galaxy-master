@@ -25,7 +25,7 @@ export default async function WebhooksConfigPage() {
     : null
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl mx-auto">
 
       {/* Header */}
       <div className="mb-8">

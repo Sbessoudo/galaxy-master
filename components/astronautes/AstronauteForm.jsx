@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { toast } from '@/lib/toast'
 
 export default function AstronauteForm({ astronaute, planetes }) {
@@ -16,10 +16,33 @@ export default function AstronauteForm({ astronaute, planetes }) {
     planet_id:    astronaute?.planet_id    ?? '',
     arrival_date: astronaute?.arrival_date ?? '',
   })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [loading, setLoading]       = useState(false)
+  const [error, setError]           = useState(null)
+  const [photoUrl, setPhotoUrl]     = useState(astronaute?.photo_url ?? null)
+  const [uploading, setUploading]   = useState(false)
+  const [uploadError, setUploadError] = useState(null)
+  const fileInputRef                = useRef(null)
 
   const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }))
+
+  async function handlePhotoChange(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploadError(null)
+    setUploading(true)
+    const fd = new FormData()
+    fd.append('file', file)
+    const res = await fetch(`/api/astronautes/${astronaute.id}/upload`, { method: 'POST', body: fd })
+    const data = await res.json()
+    if (!res.ok) {
+      setUploadError(data.error)
+    } else {
+      setPhotoUrl(data.photo_url)
+      toast.success('Photo mise à jour.')
+    }
+    setUploading(false)
+    e.target.value = ''
+  }
 
   async function submit(e) {
     e.preventDefault()
@@ -72,6 +95,48 @@ export default function AstronauteForm({ astronaute, planetes }) {
 
   return (
     <form onSubmit={submit} className="space-y-5">
+
+      {/* Photo upload — edit only (needs an id for storage path) */}
+      {isEdit && (
+        <div>
+          <label style={labelStyle}>Photo</label>
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center flex-shrink-0"
+                 style={{ background: 'var(--color-surface-container-highest)' }}>
+              {photoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={photoUrl} alt="" className="w-full h-full object-cover" />
+              ) : (
+                <span className="material-symbols-outlined" style={{ color: 'var(--color-on-surface-variant)', fontSize: '1.5rem' }}>person</span>
+              )}
+            </div>
+            <div className="flex-1">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/svg+xml"
+                onChange={handlePhotoChange}
+                style={{ display: 'none' }}
+                id="astronaut-photo-input"
+              />
+              <label htmlFor="astronaut-photo-input"
+                     className="btn-ghost"
+                     style={{ display: 'inline-flex', cursor: 'pointer', padding: '0.4rem 0.9rem', fontSize: '0.75rem' }}>
+                {uploading
+                  ? <span className="material-symbols-outlined" style={{ fontSize: '0.9rem', animation: 'spin 1s linear infinite' }}>progress_activity</span>
+                  : <span className="material-symbols-outlined" style={{ fontSize: '0.9rem' }}>upload</span>
+                }
+                {uploading ? 'Upload…' : 'Changer la photo'}
+              </label>
+              {uploadError && (
+                <p style={{ color: 'var(--color-error)', fontSize: '0.7rem', fontFamily: 'var(--font-label)', marginTop: '0.3rem' }}>
+                  {uploadError}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>

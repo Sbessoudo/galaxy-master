@@ -65,7 +65,7 @@ export default async function PlaneteDetailPage({ params }) {
     .order('awarded_at', { ascending: false })
 
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-3xl mx-auto">
 
       {/* Breadcrumb */}
       <div className="flex items-center justify-between mb-6">

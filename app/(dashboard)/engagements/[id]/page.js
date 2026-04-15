@@ -33,14 +33,17 @@ export default async function EngagementDetailPage({ params }) {
       .order('last_name'),
     supabase
       .from('event_participants')
-      .select('astronaut_id')
+      .select('astronaut_id, points_awarded')
       .eq('event_id', id),
   ])
 
-  const presentIds = (participants ?? []).map(p => p.astronaut_id)
+  const presentIds    = (participants ?? []).map(p => p.astronaut_id)
+  const initialPoints = Object.fromEntries(
+    (participants ?? []).map(p => [p.astronaut_id, p.points_awarded ?? 0])
+  )
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl mx-auto">
 
       {/* Breadcrumb */}
       <div className="flex items-center justify-between mb-6">
@@ -97,6 +100,7 @@ export default async function EngagementDetailPage({ params }) {
           astronautes={astronautes ?? []}
           presentIds={presentIds}
           isAdmin={isAdmin}
+          initialPoints={initialPoints}
         />
       </div>
 

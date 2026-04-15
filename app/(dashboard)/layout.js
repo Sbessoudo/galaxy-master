@@ -23,7 +23,7 @@ export default async function DashboardLayout({ children }) {
     <div className="min-h-screen" style={{ background: 'var(--color-background)' }}>
       <DashboardShell user={safeProfile} role={safeProfile.role}>
         {/* Main content — below fixed header */}
-        <main className="flex-1 pt-16 relative overflow-hidden">
+        <main className="flex-1 relative overflow-hidden">
           <div className="orb-primary w-[60%] h-[60%] top-[-20%] left-[-10%]" />
           <div className="orb-tertiary w-[50%] h-[50%] bottom-[-10%] right-[-10%]" />
           <div className="relative z-10 p-4 md:p-8">

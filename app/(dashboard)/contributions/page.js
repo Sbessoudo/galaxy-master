@@ -38,7 +38,7 @@ export default async function ContributionsPage({ searchParams }) {
     : contributions
 
   return (
-    <div className="max-w-4xl">
+    <div className="max-w-4xl mx-auto">
 
       <div className="flex items-start justify-between mb-8">
         <div>

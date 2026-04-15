@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import AstronautCombobox from '@/components/ui/AstronautCombobox'
 
 const CATEGORY_LABEL = {
   challenge: 'Challenge', bonus: 'Bonus', content: 'Contenu',
@@ -97,15 +98,13 @@ export default function ContributionForm({ contribution, astronautes, types, def
       {!isEdit && (
         <div>
           <label style={labelStyle}>Astronaute *</label>
-          <select value={form.astronaut_id} onChange={set('astronaut_id')} required
-                  style={{ ...inputStyle, cursor: 'pointer' }}>
-            <option value="">— Choisir un astronaute —</option>
-            {astronautes.map(a => (
-              <option key={a.id} value={a.id}>
-                {a.first_name} {a.last_name}{a.planets?.name ? ` · ${a.planets.name}` : ''}
-              </option>
-            ))}
-          </select>
+          <AstronautCombobox
+            astronautes={astronautes}
+            value={form.astronaut_id}
+            onChange={(id) => setForm(f => ({ ...f, astronaut_id: id }))}
+            required
+            inputStyle={inputStyle}
+          />
         </div>
       )}
 

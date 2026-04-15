@@ -3,7 +3,7 @@ import GradeForm from '@/components/grades/GradeForm'
 
 export default function NewGradePage() {
   return (
-    <div className="max-w-lg">
+    <div className="max-w-lg mx-auto">
       <div className="flex items-center gap-3 mb-8">
         <Link href="/config/grades"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-on-surface-variant)', fontSize: '0.8rem', fontFamily: 'var(--font-label)', textDecoration: 'none' }}>

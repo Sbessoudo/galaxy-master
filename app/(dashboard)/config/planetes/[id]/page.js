@@ -12,7 +12,7 @@ export default async function EditPlanetePage({ params }) {
   if (!planete) notFound()
 
   return (
-    <div className="max-w-lg">
+    <div className="max-w-lg mx-auto">
       <Link href="/config/planetes"
             style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-on-surface-variant)', fontSize: '0.8rem', fontFamily: 'var(--font-label)', marginBottom: '1.25rem', textDecoration: 'none' }}>
         <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>arrow_back</span>

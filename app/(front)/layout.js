@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import HubNav from '@/components/hub/HubNav'
 import PreviewBanner from '@/components/hub/PreviewBanner'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 
 export const dynamic = 'force-dynamic'
 
@@ -40,7 +41,7 @@ export default async function FrontLayout({ children }) {
       {/* Top nav */}
       <header className="fixed top-0 left-0 right-0 z-50 h-16 flex items-center px-6"
               style={{
-                background: 'rgba(6, 14, 32, 0.8)',
+                background: 'color-mix(in srgb, var(--color-background) 80%, transparent)',
                 backdropFilter: 'blur(20px)',
                 borderBottom: '1px solid rgb(255 255 255 / 0.06)',
               }}>
@@ -59,9 +60,12 @@ export default async function FrontLayout({ children }) {
         {/* HubNav reads ?preview from URL itself */}
         <HubNav />
 
+        <div className="ml-auto flex items-center gap-3">
+          <ThemeToggle />
+
         {/* User pill — astronauts only */}
         {!isAdmin && (
-          <div className="ml-auto flex items-center gap-3">
+          <div className="flex items-center gap-3">
             <Link href="/hub/profil" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
               <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0"
                    style={{ background: 'var(--color-primary-container)' }}>
@@ -92,6 +96,7 @@ export default async function FrontLayout({ children }) {
             </form>
           </div>
         )}
+        </div>{/* end ml-auto */}
       </header>
 
       <main className="relative z-10 pt-16 min-h-screen">

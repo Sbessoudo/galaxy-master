@@ -1,10 +1,11 @@
 import Image from 'next/image'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 
-export default function Header({ user, title, onMenuToggle }) {
+export default function Header({ user, title, onMenuToggle, mobileOpen = false }) {
   return (
-    <header className="fixed top-0 right-0 left-0 lg:left-64 z-40 h-16 flex items-center justify-between px-4 lg:px-8"
+    <header className="sticky top-0 z-40 h-16 flex items-center justify-between px-4 lg:px-8"
             style={{
-              background: 'rgb(6 14 32 / 0.88)',
+              background: 'color-mix(in srgb, var(--color-background) 88%, transparent)',
               backdropFilter: 'blur(20px)',
               boxShadow: '0 1px 0 0 rgb(255 255 255 / 0.05)',
             }}>
@@ -16,8 +17,10 @@ export default function Header({ user, title, onMenuToggle }) {
             onClick={onMenuToggle}
             className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg"
             style={{ background: 'var(--color-surface-container)', border: 'none', cursor: 'pointer' }}
-            aria-label="Ouvrir le menu">
-            <span className="material-symbols-outlined" style={{ color: 'var(--color-on-surface-variant)', fontSize: '1.25rem' }}>menu</span>
+            aria-label={mobileOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-expanded={mobileOpen}
+            aria-controls="sidebar-nav">
+            <span aria-hidden="true" className="material-symbols-outlined" style={{ color: 'var(--color-on-surface-variant)', fontSize: '1.25rem' }}>menu</span>
           </button>
         )}
 
@@ -30,7 +33,8 @@ export default function Header({ user, title, onMenuToggle }) {
       </div>
 
       {/* Right section */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
+        <ThemeToggle />
         {user && (
           <div className="flex items-center gap-3">
             <span className="text-sm hidden sm:block"

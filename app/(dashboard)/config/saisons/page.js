@@ -12,7 +12,7 @@ export default async function SaisonsPage() {
     .order('start_date', { ascending: false })
 
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-3xl mx-auto">
 
       {/* Header */}
       <div className="flex items-start justify-between mb-8">

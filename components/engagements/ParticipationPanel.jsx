@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 
-// ── API helper ─────────────────────────────────────────────────────────────
+// ── API helpers ────────────────────────────────────────────────────────────
 async function apiToggle(eventId, astronautId) {
   const res = await fetch(`/api/engagements/${eventId}/participants`, {
     method: 'POST',
@@ -14,86 +14,182 @@ async function apiToggle(eventId, astronautId) {
   return res.json() // { present: boolean }
 }
 
+async function apiSetPoints(eventId, astronautId, points) {
+  const res = await fetch(`/api/engagements/${eventId}/participants`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ astronaut_id: astronautId, points_awarded: points }),
+  })
+  if (!res.ok) throw new Error('API error')
+  return res.json() // { points_awarded: number }
+}
+
 // ── Astronaut chip ─────────────────────────────────────────────────────────
-function AstronautChip({ astronaut, present, loading, isAdmin, onToggle }) {
+function AstronautChip({ astronaut, present, loading, isAdmin, onToggle, points, onPointsSave }) {
   const color    = astronaut.planets?.color ?? 'var(--color-on-surface-variant)'
   const initials = `${astronaut.first_name?.[0] ?? '?'}${astronaut.last_name?.[0] ?? ''}`
 
-  return (
-    <button
-      onClick={() => isAdmin && onToggle(astronaut.id)}
-      disabled={!isAdmin || loading}
-      aria-pressed={present}
-      aria-label={`${astronaut.first_name} ${astronaut.last_name} — ${present ? 'présent' : 'absent'}`}
-      style={{
-        display: 'flex', alignItems: 'center', gap: '0.5rem',
-        padding: '0.5rem 0.6rem',
-        borderRadius: '0.65rem',
-        border: `1px solid ${present ? color + '50' : 'rgb(255 255 255 / 0.05)'}`,
-        background: present ? `${color}18` : 'var(--color-surface-container-highest)',
-        cursor: isAdmin ? 'pointer' : 'default',
-        transition: 'all 0.13s',
-        textAlign: 'left',
-        width: '100%',
-        opacity: loading ? 0.5 : 1,
-        position: 'relative',
-        outline: 'none',
-      }}
-    >
-      {/* Avatar */}
-      <div style={{
-        width: '30px', height: '30px', borderRadius: '50%', flexShrink: 0,
-        background: present ? `${color}35` : `${color}20`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        border: present ? `1.5px solid ${color}60` : '1.5px solid transparent',
-        transition: 'all 0.13s',
-      }}>
-        {astronaut.photo_url?.startsWith('https://') ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={astronaut.photo_url} alt=""
-               style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
-        ) : (
-          <span style={{ fontFamily: 'var(--font-headline)', fontSize: '0.65rem', fontWeight: 800, color: present ? color : 'var(--color-on-surface-variant)' }}>
-            {initials}
-          </span>
-        )}
-      </div>
+  const [editingPts, setEditingPts]   = useState(false)
+  const [ptsInput,   setPtsInput]     = useState(String(points ?? 0))
+  const [ptsSaving,  setPtsSaving]    = useState(false)
 
-      {/* Name */}
-      <div style={{ flex: 1, minWidth: 0 }}>
+  // Sync input if points prop changes externally
+  useState(() => { setPtsInput(String(points ?? 0)) }, [points])
+
+  async function savePts(e) {
+    e.stopPropagation()
+    const val = parseInt(ptsInput, 10)
+    if (isNaN(val) || val < 0) { setEditingPts(false); setPtsInput(String(points ?? 0)); return }
+    if (val === (points ?? 0)) { setEditingPts(false); return }
+    setPtsSaving(true)
+    await onPointsSave(astronaut.id, val)
+    setPtsSaving(false)
+    setEditingPts(false)
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') savePts(e)
+    if (e.key === 'Escape') { setEditingPts(false); setPtsInput(String(points ?? 0)) }
+  }
+
+  return (
+    <div aria-busy={loading || undefined}
+         style={{
+           display: 'flex', alignItems: 'center', gap: '0.35rem',
+           padding: '0.5rem 0.6rem',
+           borderRadius: '0.65rem',
+           border: `1px solid ${present ? color + '50' : 'rgb(255 255 255 / 0.05)'}`,
+           background: present ? `${color}18` : 'var(--color-surface-container-highest)',
+           transition: 'all 0.13s',
+           opacity: loading ? 0.5 : 1,
+           position: 'relative',
+         }}>
+      {/* Toggle button (avatar + name) */}
+      <button
+        onClick={() => isAdmin && onToggle(astronaut.id)}
+        disabled={!isAdmin || loading}
+        aria-pressed={present}
+        aria-label={`${astronaut.first_name} ${astronaut.last_name} — ${present ? 'présent, cliquer pour marquer absent' : 'absent, cliquer pour marquer présent'}`}
+        style={{
+          display: 'flex', alignItems: 'center', gap: '0.5rem',
+          flex: 1, minWidth: 0,
+          background: 'none', border: 'none', cursor: isAdmin ? 'pointer' : 'default',
+          padding: 0, outline: 'none', textAlign: 'left',
+        }}
+      >
+        {/* Avatar */}
+        <div style={{
+          width: '30px', height: '30px', borderRadius: '50%', flexShrink: 0,
+          background: present ? `${color}35` : `${color}20`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          border: present ? `1.5px solid ${color}60` : '1.5px solid transparent',
+          transition: 'all 0.13s',
+        }}>
+          {astronaut.photo_url?.startsWith('https://') ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={astronaut.photo_url} alt={`${astronaut.first_name} ${astronaut.last_name}`}
+                 style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+          ) : (
+            <span style={{ fontFamily: 'var(--font-headline)', fontSize: '0.65rem', fontWeight: 800, color: present ? color : 'var(--color-on-surface-variant)' }}>
+              {initials}
+            </span>
+          )}
+        </div>
+
+        {/* Name */}
         <p style={{
           fontFamily: 'var(--font-label)', fontWeight: present ? 700 : 500,
-          fontSize: '0.72rem', lineHeight: 1.2,
+          fontSize: '0.72rem', lineHeight: 1.2, flex: 1, minWidth: 0,
           color: present ? 'var(--color-on-surface)' : 'var(--color-on-surface-variant)',
           whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
         }}>
           {astronaut.first_name} {astronaut.last_name}
         </p>
-      </div>
+      </button>
+
+      {/* Points — visible only when present */}
+      {present && (
+        <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+          {isAdmin && editingPts ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
+              <input
+                type="number" min="0"
+                value={ptsInput}
+                aria-label={`Points de participation pour ${astronaut.first_name} ${astronaut.last_name}`}
+                onChange={e => setPtsInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                onBlur={savePts}
+                autoFocus
+                onClick={e => e.stopPropagation()}
+                style={{
+                  width: '46px', padding: '0.15rem 0.3rem',
+                  background: 'var(--color-surface-container-highest)',
+                  border: `1px solid ${color}60`,
+                  borderRadius: '0.3rem',
+                  color: 'var(--color-on-surface)',
+                  fontFamily: 'var(--font-headline)', fontSize: '0.7rem', fontWeight: 800,
+                  outline: 'none', textAlign: 'right',
+                }}
+              />
+              {ptsSaving ? (
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', border: `1.5px solid ${color}40`, borderTopColor: color, animation: 'spin 0.6s linear infinite', display: 'inline-block', flexShrink: 0 }} />
+              ) : (
+                <span style={{ fontFamily: 'var(--font-label)', fontSize: '0.58rem', color: 'var(--color-on-surface-variant)' }}>pts</span>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={e => { e.stopPropagation(); if (isAdmin) { setPtsInput(String(points ?? 0)); setEditingPts(true) } }}
+              aria-label={`Points de participation de ${astronaut.first_name} ${astronaut.last_name} : ${points ?? 0}${isAdmin ? ' — cliquer pour modifier' : ''}`}
+              style={{
+                background: (points ?? 0) > 0 ? `${color}25` : 'rgb(255 255 255 / 0.05)',
+                border: `1px solid ${(points ?? 0) > 0 ? color + '40' : 'transparent'}`,
+                borderRadius: '999px',
+                padding: '0.1rem 0.4rem',
+                cursor: isAdmin ? 'pointer' : 'default',
+                display: 'flex', alignItems: 'center', gap: '0.2rem',
+              }}
+            >
+              <span style={{ fontFamily: 'var(--font-headline)', fontWeight: 800, fontSize: '0.65rem', color: (points ?? 0) > 0 ? color : 'var(--color-on-surface-variant)' }}>
+                {(points ?? 0) > 0 ? `+${points}` : '0'}
+              </span>
+              {isAdmin && (
+                <span className="material-symbols-outlined" style={{ fontSize: '0.7rem', color: 'var(--color-on-surface-variant)' }}>edit</span>
+              )}
+            </button>
+          )}
+        </div>
+      )}
 
       {/* State icon */}
       {loading ? (
-        <span style={{
+        <span aria-hidden="true" style={{
           width: '14px', height: '14px', borderRadius: '50%', flexShrink: 0,
           border: `2px solid ${color}40`, borderTopColor: color,
           animation: 'spin 0.6s linear infinite',
           display: 'inline-block',
         }} />
       ) : (
-        <span className="material-symbols-outlined" style={{
-          fontSize: '1rem', flexShrink: 0,
-          color: present ? color : 'rgb(255 255 255 / 0.12)',
-          transition: 'color 0.13s',
-        }}>
-          {present ? 'check_circle' : 'circle'}
-        </span>
+        <button
+          onClick={() => isAdmin && onToggle(astronaut.id)}
+          disabled={!isAdmin || loading}
+          style={{ background: 'none', border: 'none', cursor: isAdmin ? 'pointer' : 'default', display: 'flex', padding: 0, flexShrink: 0 }}
+        >
+          <span className="material-symbols-outlined" style={{
+            fontSize: '1rem',
+            color: present ? color : 'rgb(255 255 255 / 0.12)',
+            transition: 'color 0.13s',
+          }}>
+            {present ? 'check_circle' : 'circle'}
+          </span>
+        </button>
       )}
-    </button>
+    </div>
   )
 }
 
 // ── Planet group ───────────────────────────────────────────────────────────
-function PlanetGroup({ planet, members, present, loading, isAdmin, onToggle, onBulk, filter }) {
+function PlanetGroup({ planet, members, present, loading, isAdmin, onToggle, onBulk, filter, pointsMap, onPointsSave }) {
   const color        = planet?.color ?? 'var(--color-on-surface-variant)'
   const presentCount = members.filter(a => present.has(a.id)).length
   const total        = members.length
@@ -174,6 +270,8 @@ function PlanetGroup({ planet, members, present, loading, isAdmin, onToggle, onB
             loading={loading.has(a.id)}
             isAdmin={isAdmin}
             onToggle={onToggle}
+            points={pointsMap[a.id] ?? 0}
+            onPointsSave={onPointsSave}
           />
         ))}
       </div>
@@ -182,13 +280,14 @@ function PlanetGroup({ planet, members, present, loading, isAdmin, onToggle, onB
 }
 
 // ── Main component ─────────────────────────────────────────────────────────
-export default function ParticipationPanel({ eventId, astronautes, presentIds, isAdmin }) {
+export default function ParticipationPanel({ eventId, astronautes, presentIds, isAdmin, initialPoints = {} }) {
   const router  = useRouter()
-  const [present, setPresent] = useState(() => new Set(presentIds))
-  const [loading, setLoading] = useState(() => new Set())
-  const [search,  setSearch]  = useState('')
-  const [filter,  setFilter]  = useState('tous') // 'tous' | 'présents' | 'absents'
-  const [apiError, setApiError] = useState(null)
+  const [present,   setPresent]   = useState(() => new Set(presentIds))
+  const [loading,   setLoading]   = useState(() => new Set())
+  const [pointsMap, setPointsMap] = useState(initialPoints) // { astronaut_id: points }
+  const [search,    setSearch]    = useState('')
+  const [filter,    setFilter]    = useState('tous') // 'tous' | 'présents' | 'absents'
+  const [apiError,  setApiError]  = useState(null)
 
   // Toggle a single astronaut
   const toggle = useCallback(async (id) => {
@@ -209,6 +308,18 @@ export default function ParticipationPanel({ eventId, astronautes, presentIds, i
       setLoading(l => { const n = new Set(l); n.delete(id); return n })
     }
   }, [eventId, isAdmin, router])
+
+  // Update points for a participant
+  const savePoints = useCallback(async (astronautId, pts) => {
+    setApiError(null)
+    try {
+      const data = await apiSetPoints(eventId, astronautId, pts)
+      setPointsMap(prev => ({ ...prev, [astronautId]: data.points_awarded }))
+      router.refresh()
+    } catch {
+      setApiError('Erreur lors de la mise à jour des points.')
+    }
+  }, [eventId, router])
 
   // Bulk toggle (whole planet) — parallel calls, apply only successes
   const bulkToggle = useCallback(async (ids, targetState) => {
@@ -360,6 +471,8 @@ export default function ParticipationPanel({ eventId, astronautes, presentIds, i
             onToggle={toggle}
             onBulk={bulkToggle}
             filter={filter}
+            pointsMap={pointsMap}
+            onPointsSave={savePoints}
           />
         ))
       )}

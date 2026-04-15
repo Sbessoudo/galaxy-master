@@ -13,7 +13,7 @@ export default async function ConfigGradesPage() {
     .order('min_points', { ascending: true })
 
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-3xl mx-auto">
 
       {/* Header */}
       <div className="flex items-start justify-between mb-8">

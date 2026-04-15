@@ -79,7 +79,7 @@ export default async function EngagementsPage() {
   }
 
   return (
-    <div className="max-w-5xl">
+    <div className="max-w-5xl mx-auto">
 
       {/* Header */}
       <div className="flex items-start justify-between mb-8">

@@ -60,7 +60,7 @@ export default function NewPlanetePage() {
   }
 
   return (
-    <div className="max-w-lg">
+    <div className="max-w-lg mx-auto">
 
       <div className="mb-8">
         <Link href="/config/planetes"

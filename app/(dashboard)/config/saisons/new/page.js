@@ -37,7 +37,7 @@ export default function NewSaisonPage() {
   }
 
   return (
-    <div className="max-w-lg">
+    <div className="max-w-lg mx-auto">
 
       {/* Header */}
       <div className="mb-8">

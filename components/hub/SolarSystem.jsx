@@ -10,10 +10,10 @@ const RANK_COLOR  = ['#ffd700', '#c0c0c0', '#cd7f32', 'rgba(255,255,255,0.5)']
 const RANK_SHADOW = ['0 0 12px #ffd70080', '0 0 8px #c0c0c060', '0 0 8px #cd7f3260', 'none']
 
 const ORBIT_CONFIG = [
-  { size: 88,  orbitR: 100, duration: 12 }, // rank 1 — closest, fastest
-  { size: 72,  orbitR: 168, duration: 20 }, // rank 2
-  { size: 58,  orbitR: 232, duration: 30 }, // rank 3
-  { size: 48,  orbitR: 290, duration: 42 }, // rank 4 — farthest, slowest
+  { size: 90,  orbitR: 88,  duration: 12 }, // rank 1 — closest, fastest
+  { size: 74,  orbitR: 148, duration: 20 }, // rank 2
+  { size: 60,  orbitR: 204, duration: 30 }, // rank 3
+  { size: 50,  orbitR: 256, duration: 42 }, // rank 4 — farthest, slowest
 ]
 
 const INITIAL_ANGLES_DEG = [315, 45, 225, 135]
@@ -119,7 +119,7 @@ function OrbitingPlanet({ planet, cfg, initAngleDeg, rankIndex, planetHref, hove
             bottom: `${cfg.size + 12}px`,
             left: '50%',
             transform: 'translateX(-50%)',
-            background: 'rgba(6,14,32,0.94)',
+            background: 'var(--color-surface-container-highest)',
             backdropFilter: 'blur(14px)',
             border: `1px solid ${color}40`,
             borderRadius: '0.75rem',
@@ -167,7 +167,7 @@ export default function SolarSystem({ planets = [], activeSeason }) {
   [planets, activeSeason?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div style={{ width: '100%', maxWidth: '680px', margin: '0 auto' }}>
+    <div style={{ width: '100%', maxWidth: `${CANVAS_SIZE}px` }}>
       <div style={{ position: 'relative', width: '100%', paddingBottom: '100%' }}>
         <div style={{ position: 'absolute', inset: 0 }}>
 

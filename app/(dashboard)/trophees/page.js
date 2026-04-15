@@ -25,7 +25,7 @@ export default async function TropheesPage() {
     .limit(100)
 
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-3xl mx-auto">
 
       <div className="flex items-start justify-between mb-8">
         <div>

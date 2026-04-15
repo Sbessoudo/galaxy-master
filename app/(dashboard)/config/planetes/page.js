@@ -29,7 +29,7 @@ export default async function ConfigPlanetesPage() {
     : `${total} planète${total > 1 ? 's' : ''} au total${descParts.length ? ' — ' + descParts.join(', ') : ''}.`
 
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-3xl mx-auto">
 
       <div className="flex items-start justify-between mb-8">
         <div>

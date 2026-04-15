@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from '@/lib/toast'
+import AstronautCombobox from '@/components/ui/AstronautCombobox'
 
 export default function TropheeForm({ trophyTypes, astronautes, planetes, defaultAstronautId, defaultPlanetId }) {
   const router = useRouter()
@@ -118,15 +119,13 @@ export default function TropheeForm({ trophyTypes, astronautes, planetes, defaul
         </div>
 
         {form.target === 'astronaut' && (
-          <select value={form.astronaut_id} onChange={set('astronaut_id')} required
-                  style={{ ...inputStyle, cursor: 'pointer' }}>
-            <option value="">— Choisir un astronaute —</option>
-            {astronautes.map(a => (
-              <option key={a.id} value={a.id}>
-                {a.first_name} {a.last_name}{a.planets?.name ? ` · ${a.planets.name}` : ''}
-              </option>
-            ))}
-          </select>
+          <AstronautCombobox
+            astronautes={astronautes}
+            value={form.astronaut_id}
+            onChange={(id) => setForm(f => ({ ...f, astronaut_id: id }))}
+            required
+            inputStyle={inputStyle}
+          />
         )}
 
         {form.target === 'planet' && (

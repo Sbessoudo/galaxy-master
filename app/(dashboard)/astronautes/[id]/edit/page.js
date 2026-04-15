@@ -24,7 +24,7 @@ export default async function EditAstronautePage({ params }) {
   if (!astronaute) notFound()
 
   return (
-    <div className="max-w-xl">
+    <div className="max-w-xl mx-auto">
       <div className="flex items-center gap-3 mb-8">
         <Link href={`/astronautes/${id}`}
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-on-surface-variant)', fontSize: '0.8rem', fontFamily: 'var(--font-label)', textDecoration: 'none' }}>

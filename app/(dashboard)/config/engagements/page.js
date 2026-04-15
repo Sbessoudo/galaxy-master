@@ -10,7 +10,7 @@ export default async function ConfigEngagementsPage() {
     .from('event_types').select('*').order('name')
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl mx-auto">
       <div className="flex items-start justify-between mb-8">
         <div>
           <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.6rem', color: 'var(--color-secondary)', letterSpacing: '0.2em', textTransform: 'uppercase', fontWeight: 700, marginBottom: '0.5rem' }}>

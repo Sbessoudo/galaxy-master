@@ -147,7 +147,7 @@ export default async function DashboardPage() {
   ]
 
   return (
-    <div className="max-w-6xl">
+    <div className="max-w-6xl mx-auto">
 
       {/* Editorial headline */}
       <div className="mb-10">

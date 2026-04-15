@@ -25,7 +25,7 @@ export default async function PlanetesPage() {
     .order('sort_order', { ascending: true })
 
   return (
-    <div className="max-w-5xl">
+    <div className="max-w-5xl mx-auto">
 
       <div className="flex items-start justify-between mb-8">
         <div>

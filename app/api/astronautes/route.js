@@ -16,9 +16,11 @@ export async function POST(request) {
   if (!first_name?.trim()) return NextResponse.json({ error: 'Prénom requis' }, { status: 400 })
   if (!last_name?.trim()) return NextResponse.json({ error: 'Nom requis' }, { status: 400 })
 
-  // Assign Rookie grade by default
-  const { data: rookieGrade } = await supabase
-    .from('grades').select('id').eq('min_points', 0).single()
+  // Assign Rookie grade + newcomers planet by default
+  const [{ data: rookieGrade }, { data: asteroide }] = await Promise.all([
+    supabase.from('grades').select('id').eq('min_points', 0).single(),
+    supabase.from('planets').select('id').eq('type', 'newcomers').eq('active', true).single(),
+  ])
 
   const { data, error } = await supabase
     .from('astronauts')
@@ -27,7 +29,7 @@ export async function POST(request) {
       last_name:    last_name.trim(),
       email:        email?.trim().toLowerCase() || null,
       role_title:   role_title?.trim() || null,
-      planet_id:    planet_id || null,
+      planet_id:    planet_id || asteroide?.id || null,
       arrival_date: arrival_date || null,
       grade_id:     rookieGrade?.id ?? null,
     })
