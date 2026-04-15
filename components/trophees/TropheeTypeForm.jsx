@@ -148,7 +148,7 @@ export default function TropheeTypeForm({ trophyType }) {
                  onChange={e => setForm(f => ({ ...f, active: e.target.checked }))}
                  style={{ width: '1rem', height: '1rem', accentColor: 'var(--color-primary)', cursor: 'pointer' }} />
           <label htmlFor="active" style={{ ...labelStyle, margin: 0, cursor: 'pointer' }}>
-            Actif (disponible à l'attribution)
+            Actif (disponible à l&apos;attribution)
           </label>
         </div>
       )}

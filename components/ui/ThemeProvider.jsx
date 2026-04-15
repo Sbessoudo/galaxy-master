@@ -10,6 +10,7 @@ export function ThemeProvider({ children }) {
   // Load saved preference — already applied to <html> by inline script, just sync state
   useEffect(() => {
     const saved = localStorage.getItem('theme') ?? 'system'
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setThemeState(saved)
   }, [])
 

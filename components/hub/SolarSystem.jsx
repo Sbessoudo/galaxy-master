@@ -35,9 +35,10 @@ const STARS = Array.from({ length: 90 }, (_, i) => ({
 
 // ── Orbiting planet — x/y computed from angle, no rotation on planet div ──
 function OrbitingPlanet({ planet, cfg, initAngleDeg, rankIndex, planetHref, hovered, setHovered }) {
-  const angleRef = useRef(initAngleDeg * (Math.PI / 180))
-  const x = useMotionValue(Math.sin(angleRef.current) * cfg.orbitR)
-  const y = useMotionValue(-Math.cos(angleRef.current) * cfg.orbitR)
+  const initAngleRad = initAngleDeg * (Math.PI / 180)
+  const angleRef = useRef(initAngleRad)
+  const x = useMotionValue(Math.sin(initAngleRad) * cfg.orbitR)
+  const y = useMotionValue(-Math.cos(initAngleRad) * cfg.orbitR)
 
   useAnimationFrame((_, delta) => {
     const msPerRev = cfg.duration * 1000
@@ -164,7 +165,7 @@ export default function SolarSystem({ planets = [], activeSeason }) {
           : 0,
       }))
       .sort((a, b) => b._pts - a._pts),
-  [planets, activeSeason?.id]) // eslint-disable-line react-hooks/exhaustive-deps
+  [planets, activeSeason])
 
   return (
     <div style={{ width: '100%', maxWidth: `${CANVAS_SIZE}px` }}>

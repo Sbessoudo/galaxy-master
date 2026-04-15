@@ -11,7 +11,7 @@ export default function DashboardError({ error, reset }) {
           warning
         </span>
         <h2 style={{ fontFamily: 'var(--font-headline)', fontSize: '1.25rem', fontWeight: 800, color: 'var(--color-on-surface)', marginBottom: '0.5rem' }}>
-          Quelque chose s'est mal passé
+          Quelque chose s&apos;est mal passé
         </h2>
         <p style={{ color: 'var(--color-on-surface-variant)', fontSize: '0.875rem', marginBottom: '1.5rem' }}>
           {error?.message || 'Erreur inattendue sur cette page.'}

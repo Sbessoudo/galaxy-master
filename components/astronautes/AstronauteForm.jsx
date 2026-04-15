@@ -177,7 +177,7 @@ export default function AstronauteForm({ astronaute, planetes }) {
       </div>
 
       <div>
-        <label style={labelStyle}>Date d'arrivée</label>
+        <label style={labelStyle}>Date d&apos;arrivée</label>
         <input type="date" value={form.arrival_date} onChange={set('arrival_date')} style={inputStyle} />
       </div>
 

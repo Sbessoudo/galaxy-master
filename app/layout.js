@@ -17,6 +17,7 @@ export default function RootLayout({ children }) {
       <head>
         {/* Anti-flash: apply saved theme before first paint */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {/* eslint-disable @next/next/no-page-custom-font, @next/next/google-font-display */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Work+Sans:wght@300;400;500;600&display=swap"
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
+        {/* eslint-enable @next/next/no-page-custom-font, @next/next/google-font-display */}
       </head>
       <body className="h-full">
         <ThemeProvider>{children}</ThemeProvider>

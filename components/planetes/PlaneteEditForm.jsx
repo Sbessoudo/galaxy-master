@@ -117,7 +117,7 @@ export default function PlaneteEditForm({ planete }) {
                         router.refresh()
                       }}
                       style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontFamily: 'var(--font-label)', fontSize: '0.65rem', marginTop: '0.25rem', padding: 0 }}>
-                Supprimer l'image
+                Supprimer l&apos;image
               </button>
             )}
           </div>

@@ -16,6 +16,7 @@ export default function DashboardShell({ user, role, children }) {
   const lastFocusRef = useRef(null)
 
   // Close mobile drawer on route change
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMobileOpen(false) }, [pathname])
 
   // Track desktop breakpoint
@@ -59,6 +60,7 @@ export default function DashboardShell({ user, role, children }) {
   // Persist collapsed state
   useEffect(() => {
     const saved = localStorage.getItem('sidebar-collapsed')
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (saved !== null) setCollapsed(saved === 'true')
   }, [])
   const toggleCollapsed = () => setCollapsed(v => {

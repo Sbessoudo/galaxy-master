@@ -125,7 +125,7 @@ export default function ContributionForm({ contribution, astronautes, types, def
         {selectedType && (
           <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.65rem', color: 'var(--color-primary)', marginTop: '0.35rem' }}>
             Base : {selectedType.base_points} pts
-            {!isEdit && <span style={{ color: 'var(--color-on-surface-variant)' }}> · les multiplieurs (1ère contrib., 1ère de saison) s'appliquent automatiquement</span>}
+            {!isEdit && <span style={{ color: 'var(--color-on-surface-variant)' }}> · les multiplieurs (1ère contrib., 1ère de saison) s&apos;appliquent automatiquement</span>}
           </p>
         )}
       </div>

@@ -158,7 +158,7 @@ export default function NewPlanetePage() {
         {/* Ordre */}
         <div>
           <label style={{ display: 'block', fontFamily: 'var(--font-label)', fontSize: '0.65rem', color: 'var(--color-on-surface-variant)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-            Ordre d'affichage
+            Ordre d&apos;affichage
           </label>
           <input type="number" min="0" max="10" value={form.sort_order}
                  onChange={e => set('sort_order', parseInt(e.target.value) || 0)}
