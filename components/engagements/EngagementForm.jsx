@@ -9,7 +9,7 @@ export default function EngagementForm({ event, eventTypes }) {
 
   const [form, setForm] = useState({
     name:        event?.name        ?? '',
-    date:        event?.date        ?? new Date().toISOString().split('T')[0],
+    date:        (event?.date ?? new Date().toISOString()).split('T')[0],
     type_id:     event?.type_id     ?? '',
     description: event?.description ?? '',
   })

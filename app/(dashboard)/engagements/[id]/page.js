@@ -9,7 +9,7 @@ export default async function EngagementDetailPage({ params }) {
   const { id } = await params
   const supabase = await createClient()
 
-  const [{ data: event }, { data: { user } }] = await Promise.all([
+  const [{ data: event }, { data: { user } = {} }] = await Promise.all([
     supabase
       .from('events')
       .select('*, event_types(name)')

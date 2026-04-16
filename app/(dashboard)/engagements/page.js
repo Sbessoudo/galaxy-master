@@ -37,9 +37,7 @@ export default async function EngagementsPage() {
   const { data: events } = await eventsQuery
 
   // Season events only (for rate calculation)
-  const seasonEvents = activeSeason
-    ? (events ?? []).filter(e => e.season_id === activeSeason.id)
-    : []
+  const seasonEvents = activeSeason ? (events ?? []) : []
   const totalSeasonEvents = seasonEvents.length
 
   // All participations for season events

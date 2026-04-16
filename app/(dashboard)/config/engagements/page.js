@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function ConfigEngagementsPage() {
   const supabase = await createClient()
-  const [{ data: types }, { data: { user } }] = await Promise.all([
+  const [{ data: types }, { data: { user } = {} }] = await Promise.all([
     supabase.from('event_types').select('*').order('name'),
     supabase.auth.getUser(),
   ])
