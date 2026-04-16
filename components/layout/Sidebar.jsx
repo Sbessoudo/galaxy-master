@@ -171,13 +171,6 @@ export default function Sidebar({ role, collapsed = false, onClose }) {
 
       {/* Bottom — settings + logout + collapse toggle */}
       <div className="px-2 pb-4 pt-4" style={{ borderTop: '1px solid var(--color-outline-variant)' }}>
-        <Link href="/parametres"
-              aria-label={collapsed ? 'Paramètres' : undefined}
-              className="nav-item"
-              style={collapsed ? { justifyContent: 'center', padding: '0.55rem 0' } : {}}>
-          <span aria-hidden="true" className="material-symbols-outlined">settings</span>
-          {!collapsed && 'Paramètres'}
-        </Link>
         <form action="/auth/signout" method="post">
           <button type="submit"
                   aria-label={collapsed ? 'Déconnexion' : undefined}
