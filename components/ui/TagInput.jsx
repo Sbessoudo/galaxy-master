@@ -65,7 +65,7 @@ export default function TagInput({ label, tags = [], onChange, placeholder = 'Aj
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={onKey}
-          onBlur={add}
+          onBlur={() => { if (input.trim()) add() }}
           placeholder={tags.length === 0 ? placeholder : ''}
           style={{
             flex: 1, minWidth: '8rem', background: 'none', border: 'none', outline: 'none',

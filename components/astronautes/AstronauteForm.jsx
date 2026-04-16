@@ -68,25 +68,28 @@ export default function AstronauteForm({ astronaute, planetes }) {
       skills:       form.skills,
     }
 
-    const res = await fetch(
-      isEdit ? `/api/astronautes/${astronaute.id}` : '/api/astronautes',
-      {
-        method: isEdit ? 'PATCH' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+    try {
+      const res = await fetch(
+        isEdit ? `/api/astronautes/${astronaute.id}` : '/api/astronautes',
+        {
+          method: isEdit ? 'PATCH' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }
+      )
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        setError(data.error ?? 'Une erreur est survenue.')
+        return
       }
-    )
-
-    if (!res.ok) {
-      const data = await res.json()
-      setError(data.error)
+      const saved = await res.json()
+      toast.success(isEdit ? 'Astronaute mis à jour.' : 'Astronaute créé.')
+      router.push(`/astronautes/${saved.id}`)
+    } catch {
+      setError('Erreur réseau. Réessaie.')
+    } finally {
       setLoading(false)
-      return
     }
-
-    const saved = await res.json()
-    toast.success(isEdit ? 'Astronaute mis à jour.' : 'Astronaute créé.')
-    router.push(`/astronautes/${saved.id}`)
     router.refresh()
   }
 

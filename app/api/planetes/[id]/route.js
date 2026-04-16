@@ -18,6 +18,8 @@ export async function PATCH(request, { params }) {
     Object.entries(body).filter(([k]) => allowed.includes(k))
   )
   if (updates.name !== undefined) updates.name = updates.name.trim()
+  if (updates.name !== undefined && !updates.name)
+    return NextResponse.json({ error: 'Nom requis' }, { status: 400 })
 
   const { data, error } = await supabase
     .from('planets').update(updates).eq('id', id).select().single()

@@ -25,11 +25,7 @@ export default function ProfilForm({ astronaut }) {
       const res = await fetch('/api/profil', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          hobbies: form.hobbies,
-          skills:  form.skills,
-        }),
+        body: JSON.stringify(form),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Erreur inconnue')

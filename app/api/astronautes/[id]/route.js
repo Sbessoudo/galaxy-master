@@ -25,6 +25,9 @@ export async function PATCH(request, { params }) {
   if (!updates.last_name && 'last_name' in updates)
     return NextResponse.json({ error: 'Nom requis' }, { status: 400 })
 
+  if (Object.keys(updates).length === 0)
+    return NextResponse.json({ error: 'Aucun champ à mettre à jour' }, { status: 400 })
+
   const { data, error } = await supabase
     .from('astronauts').update(updates).eq('id', id).select().single()
 
