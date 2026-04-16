@@ -38,7 +38,7 @@ Galaxy Master is the operational command center behind *Le Site des Planètes* �
 | **Audience** | Admins, Observers, Collaborators (Astronauts) |
 | **Auth** | Google OAuth 2.0 only — no email/password |
 | **Database** | Supabase (Postgres + Row Level Security) |
-| **Deployment** | Vercel / Supabase Cloud |
+| **Deployment** | Local / Supabase Cloud |
 
 ---
 
@@ -185,7 +185,7 @@ Refresh the app — you now have full admin access.
 | `NEXT_PUBLIC_SUPABASE_URL` | ✅ | Your Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | Supabase anon (public) key |
 | `SUPABASE_SERVICE_ROLE_KEY` | ✅ | Supabase service role key (server-only, never exposed to browser) |
-| `NEXT_PUBLIC_APP_URL` | ✅ | Base URL of the app (e.g. `https://galaxy-master.eleven-labs.com`) |
+| `NEXT_PUBLIC_APP_URL` | ✅ | Base URL of the app (e.g. `http://localhost:3000`) |
 | `ALLOWED_EMAIL_DOMAIN` | ⬜ | Restrict logins to this domain (e.g. `eleven-labs.com`). Omit to allow any Google account. |
 | `SLACK_WEBHOOK_URL` | ⬜ | Slack incoming webhook URL. Fires on contributions and trophy assignments. |
 
@@ -208,11 +208,10 @@ OAuth goes through two systems: **Google Cloud Console** (issues the token) and 
 1. Go to your Supabase project → **Authentication** → **Providers** → **Google**
 2. Enable Google provider, paste your **Client ID** and **Client Secret**
 3. Go to **Authentication** → **URL Configuration**
-4. Set **Site URL** to your production URL (or `http://localhost:3000` for local-only use)
+4. Set **Site URL** to `http://localhost:3000`
 5. Under **Redirect URLs**, add both:
    ```
    http://localhost:3000/auth/callback
-   https://<your-production-domain>/auth/callback
    ```
 
 > Without step 5, Supabase will refuse to redirect back to the app after Google login and you will see a `redirect_uri_mismatch` error.
