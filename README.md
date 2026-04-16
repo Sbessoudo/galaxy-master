@@ -136,7 +136,7 @@ Galaxy Master is the operational command center behind *Le Site des Plan√®tes* ‚
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/eleven-labs/galaxy-master.git
+git clone https://github.com/Sbessoudo/galaxy-master.git
 cd galaxy-master
 npm install
 ```
