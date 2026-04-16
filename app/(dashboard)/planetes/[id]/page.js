@@ -112,6 +112,14 @@ export default async function PlaneteDetailPage({ params }) {
               {planete.description}
             </p>
           )}
+          {planete.mantra && (
+            <p style={{
+              fontFamily: 'var(--font-headline)', fontSize: '0.85rem', fontStyle: 'italic',
+              color: planete.color, marginTop: '0.5rem', lineHeight: 1.4,
+            }}>
+              &ldquo;{planete.mantra}&rdquo;
+            </p>
+          )}
         </div>
 
         <div className="flex gap-6 flex-shrink-0">

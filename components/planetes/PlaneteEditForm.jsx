@@ -13,6 +13,7 @@ export default function PlaneteEditForm({ planete }) {
   const [form, setForm] = useState({
     name: planete.name,
     description: planete.description || '',
+    mantra: planete.mantra || '',
     color: planete.color,
     type: planete.type,
     sort_order: planete.sort_order,
@@ -159,6 +160,10 @@ export default function PlaneteEditForm({ planete }) {
         <FormInput label="Description" optional value={form.description}
                    onChange={e => set('description', e.target.value)}
                    placeholder="Description optionnelle" />
+
+        <FormInput label="Mantra" optional value={form.mantra}
+                   onChange={e => set('mantra', e.target.value)}
+                   placeholder="La devise de la planète…" />
 
         <div className="grid grid-cols-2 gap-4">
           <FormInput label="Type" as="select" value={form.type} onChange={e => set('type', e.target.value)}>

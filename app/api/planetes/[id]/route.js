@@ -13,7 +13,7 @@ export async function PATCH(request, { params }) {
   const body = await parseBody(request)
   if (body instanceof NextResponse) return body
 
-  const allowed = ['name', 'description', 'color', 'type', 'sort_order', 'active', 'photo_url']
+  const allowed = ['name', 'description', 'color', 'type', 'sort_order', 'active', 'photo_url', 'mantra']
   const updates = Object.fromEntries(
     Object.entries(body).filter(([k]) => allowed.includes(k))
   )

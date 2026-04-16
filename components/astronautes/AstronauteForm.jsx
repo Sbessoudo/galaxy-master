@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useState, useRef } from 'react'
 import { toast } from '@/lib/toast'
+import TagInput from '@/components/ui/TagInput'
 
 export default function AstronauteForm({ astronaute, planetes }) {
   const router = useRouter()
@@ -15,6 +16,8 @@ export default function AstronauteForm({ astronaute, planetes }) {
     role_title:   astronaute?.role_title   ?? '',
     planet_id:    astronaute?.planet_id    ?? '',
     arrival_date: astronaute?.arrival_date ?? '',
+    hobbies:      astronaute?.hobbies      ?? [],
+    skills:       astronaute?.skills       ?? [],
   })
   const [loading, setLoading]       = useState(false)
   const [error, setError]           = useState(null)
@@ -61,6 +64,8 @@ export default function AstronauteForm({ astronaute, planetes }) {
       role_title:   form.role_title.trim() || null,
       planet_id:    form.planet_id || null,
       arrival_date: form.arrival_date || null,
+      hobbies:      form.hobbies,
+      skills:       form.skills,
     }
 
     const res = await fetch(
@@ -185,6 +190,20 @@ export default function AstronauteForm({ astronaute, planetes }) {
         <label style={labelStyle}>Date d&apos;arrivée</label>
         <input type="date" value={form.arrival_date} onChange={set('arrival_date')} style={inputStyle} />
       </div>
+
+      <TagInput
+        label="Hobbies"
+        tags={form.hobbies}
+        onChange={tags => setForm(f => ({ ...f, hobbies: tags }))}
+        placeholder="Ex: Photographie, Escalade…"
+      />
+
+      <TagInput
+        label="Compétences"
+        tags={form.skills}
+        onChange={tags => setForm(f => ({ ...f, skills: tags }))}
+        placeholder="Ex: React, Design, Python…"
+      />
 
       {error && (
         <p style={{ color: 'var(--color-error, #f87171)', fontSize: '0.8rem', fontFamily: 'var(--font-label)' }}>

@@ -27,7 +27,7 @@ export async function PATCH(request) {
   const body = await parseBody(request)
   if (body instanceof NextResponse) return body
 
-  const { first_name, last_name, role_title, photo_url } = body
+  const { first_name, last_name, role_title, photo_url, hobbies, skills } = body
 
   // Update linked astronaut record (own row only — RLS enforces user_id = uid)
   const updates = {}
@@ -35,6 +35,8 @@ export async function PATCH(request) {
   if (last_name  !== undefined) updates.last_name  = last_name.trim()
   if (role_title !== undefined) updates.role_title = role_title?.trim() || null
   if (photo_url  !== undefined) updates.photo_url  = photo_url?.trim()  || null
+  if (hobbies    !== undefined) updates.hobbies    = Array.isArray(hobbies) ? hobbies : []
+  if (skills     !== undefined) updates.skills     = Array.isArray(skills)  ? skills  : []
 
   if (Object.keys(updates).length > 0) {
     const { error } = await supabase

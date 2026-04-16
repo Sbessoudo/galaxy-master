@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import TagInput from '@/components/ui/TagInput'
 
 export default function ProfilForm({ astronaut }) {
   const [form, setForm] = useState({
@@ -8,6 +9,8 @@ export default function ProfilForm({ astronaut }) {
     last_name:  astronaut?.last_name  ?? '',
     role_title: astronaut?.role_title ?? '',
     photo_url:  astronaut?.photo_url  ?? '',
+    hobbies:    astronaut?.hobbies    ?? [],
+    skills:     astronaut?.skills     ?? [],
   })
   const [saving, setSaving] = useState(false)
   const [status, setStatus] = useState(null)
@@ -22,7 +25,11 @@ export default function ProfilForm({ astronaut }) {
       const res = await fetch('/api/profil', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          hobbies: form.hobbies,
+          skills:  form.skills,
+        }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Erreur inconnue')
@@ -87,6 +94,20 @@ export default function ProfilForm({ astronaut }) {
           </div>
         )}
       </div>
+
+      <TagInput
+        label="Hobbies"
+        tags={form.hobbies}
+        onChange={tags => setForm(f => ({ ...f, hobbies: tags }))}
+        placeholder="Ex: Photographie, Escalade…"
+      />
+
+      <TagInput
+        label="Compétences"
+        tags={form.skills}
+        onChange={tags => setForm(f => ({ ...f, skills: tags }))}
+        placeholder="Ex: React, Design, Python…"
+      />
 
       {status && (
         <div className="rounded-xl p-3 flex items-center gap-2"
