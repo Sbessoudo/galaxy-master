@@ -58,21 +58,24 @@ export default function PlaneteEditForm({ planete }) {
     setSaving(true)
     setError(null)
     setSuccess(false)
-
-    const res = await fetch(`/api/planetes/${planete.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    })
-    const data = await res.json()
-
-    if (res.ok) {
-      setSuccess(true)
-      router.refresh()
-    } else {
-      setError(data.error)
+    try {
+      const res = await fetch(`/api/planetes/${planete.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok) {
+        setSuccess(true)
+        router.refresh()
+      } else {
+        setError(data.error || 'Erreur inconnue')
+      }
+    } catch {
+      setError('Erreur réseau. Réessaie.')
+    } finally {
+      setSaving(false)
     }
-    setSaving(false)
   }
 
   return (

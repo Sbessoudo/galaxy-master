@@ -16,9 +16,9 @@ export async function PATCH(request, { params }) {
   const updates = Object.fromEntries(
     Object.entries(body).filter(([k]) => allowed.includes(k))
   )
-  if (updates.first_name !== undefined) updates.first_name = updates.first_name.trim()
-  if (updates.last_name !== undefined) updates.last_name = updates.last_name.trim()
-  if (updates.role_title !== undefined) updates.role_title = updates.role_title?.trim() || null
+  if (updates.first_name !== undefined) updates.first_name = String(updates.first_name).trim()
+  if (updates.last_name !== undefined) updates.last_name = String(updates.last_name).trim()
+  if (updates.role_title !== undefined) updates.role_title = String(updates.role_title ?? '').trim() || null
 
   if (!updates.first_name && 'first_name' in updates)
     return NextResponse.json({ error: 'Prénom requis' }, { status: 400 })

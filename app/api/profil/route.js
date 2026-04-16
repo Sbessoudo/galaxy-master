@@ -31,10 +31,10 @@ export async function PATCH(request) {
 
   // Update linked astronaut record (own row only — RLS enforces user_id = uid)
   const updates = {}
-  if (first_name !== undefined) updates.first_name = first_name.trim()
-  if (last_name  !== undefined) updates.last_name  = last_name.trim()
-  if (role_title !== undefined) updates.role_title = role_title?.trim() || null
-  if (photo_url  !== undefined) updates.photo_url  = photo_url?.trim()  || null
+  if (first_name !== undefined) updates.first_name = String(first_name).trim()
+  if (last_name  !== undefined) updates.last_name  = String(last_name).trim()
+  if (role_title !== undefined) updates.role_title = String(role_title ?? '').trim() || null
+  if (photo_url  !== undefined) updates.photo_url  = String(photo_url  ?? '').trim() || null
   if (hobbies    !== undefined) updates.hobbies    = Array.isArray(hobbies) ? hobbies : []
   if (skills     !== undefined) updates.skills     = Array.isArray(skills)  ? skills  : []
 

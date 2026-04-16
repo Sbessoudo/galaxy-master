@@ -17,9 +17,12 @@ export async function PATCH(request, { params }) {
   const updates = Object.fromEntries(
     Object.entries(body).filter(([k]) => allowed.includes(k))
   )
-  if (updates.name !== undefined) updates.name = updates.name.trim()
+  if (updates.name !== undefined) updates.name = String(updates.name).trim()
   if (updates.name !== undefined && !updates.name)
     return NextResponse.json({ error: 'Nom requis' }, { status: 400 })
+
+  if (Object.keys(updates).length === 0)
+    return NextResponse.json({ error: 'Aucun champ à mettre à jour' }, { status: 400 })
 
   const { data, error } = await supabase
     .from('planets').update(updates).eq('id', id).select().single()

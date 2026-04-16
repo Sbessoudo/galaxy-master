@@ -90,7 +90,6 @@ export default function AstronauteForm({ astronaute, planetes }) {
     } finally {
       setLoading(false)
     }
-    router.refresh()
   }
 
   const inputStyle = {

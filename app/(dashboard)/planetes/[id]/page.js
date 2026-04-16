@@ -170,7 +170,7 @@ export default async function PlaneteDetailPage({ params }) {
                 <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
                      style={{ background: planete.color + '30' }}>
                   <span style={{ fontFamily: 'var(--font-headline)', fontSize: '0.75rem', fontWeight: 700, color: planete.color }}>
-                    {a.first_name[0]}{a.last_name[0]}
+                    {a.first_name?.[0] ?? '?'}{a.last_name?.[0] ?? ''}
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
@@ -183,7 +183,7 @@ export default async function PlaneteDetailPage({ params }) {
                 </div>
                 <div className="text-right flex-shrink-0">
                   <p style={{ fontFamily: 'var(--font-headline)', fontSize: '0.85rem', fontWeight: 800, color: 'var(--color-on-surface)' }}>
-                    {a.total_points.toLocaleString('fr-FR')} pts
+                    {(a.total_points ?? 0).toLocaleString('fr-FR')} pts
                   </p>
                   {a.grades && (
                     <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.6rem', color: 'var(--color-on-surface-variant)' }}>
