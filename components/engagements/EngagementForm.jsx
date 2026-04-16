@@ -23,23 +23,27 @@ export default function EngagementForm({ event, eventTypes }) {
     setError(null)
     setLoading(true)
 
-    const res = await fetch(
-      isEdit ? `/api/engagements/${event.id}` : '/api/engagements',
-      {
-        method: isEdit ? 'PATCH' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, type_id: form.type_id || null }),
+    try {
+      const res = await fetch(
+        isEdit ? `/api/engagements/${event.id}` : '/api/engagements',
+        {
+          method: isEdit ? 'PATCH' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...form, type_id: form.type_id || null }),
+        }
+      )
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        setError(d.error ?? 'Une erreur est survenue.')
+        return
       }
-    )
-
-    if (!res.ok) {
-      const d = await res.json().catch(() => ({}))
-      setError(d.error ?? 'Une erreur est survenue.')
+      const saved = await res.json()
+      router.push(`/engagements/${saved.id}`)
+    } catch {
+      setError('Erreur réseau. Réessayez.')
+    } finally {
       setLoading(false)
-      return
     }
-    const saved = await res.json()
-    router.push(`/engagements/${saved.id}`)
   }
 
   const inputStyle = {

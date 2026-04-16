@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function NouvelEngagementPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } = {} } = await supabase.auth.getUser()
   const { data: profile } = user
     ? await supabase.from('profiles').select('role').eq('id', user.id).single()
     : { data: null }

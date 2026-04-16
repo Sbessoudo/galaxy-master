@@ -8,7 +8,7 @@ const ENGAGEMENT_THRESHOLD = 0.5 // 50 %
 
 export default async function EngagementsPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } = {} } = await supabase.auth.getUser()
 
   const { data: profile } = user
     ? await supabase.from('profiles').select('role').eq('id', user.id).single()
@@ -177,7 +177,7 @@ export default async function EngagementsPage() {
             )}
           </div>
           <div style={{ maxHeight: '420px', overflowY: 'auto' }}>
-            {astronautsWithRate.sort((a, b) => b.rate - a.rate).map((a, i, arr) => (
+            {[...astronautsWithRate].sort((a, b) => b.rate - a.rate).map((a, i, arr) => (
               <div key={a.id} style={{
                 display: 'flex', alignItems: 'center', gap: '0.6rem',
                 padding: '0.55rem 1rem',

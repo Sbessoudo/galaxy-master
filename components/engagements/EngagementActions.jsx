@@ -11,15 +11,20 @@ export default function EngagementActions({ id, name }) {
   async function del() {
     if (!confirm(`Supprimer l'event "${name}" ?`)) return
     setLoading(true)
-    const res = await fetch(`/api/engagements/${id}`, { method: 'DELETE' })
-    if (!res.ok) {
-      const d = await res.json().catch(() => ({}))
-      toast.error(d.error ?? 'Erreur lors de la suppression.')
-    } else {
-      toast.success(`Event « ${name} » supprimé.`)
-      router.refresh()
+    try {
+      const res = await fetch(`/api/engagements/${id}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        toast.error(d.error ?? 'Erreur lors de la suppression.')
+      } else {
+        toast.success(`Event « ${name} » supprimé.`)
+        router.refresh()
+      }
+    } catch {
+      toast.error('Erreur réseau. Réessayez.')
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   return (
