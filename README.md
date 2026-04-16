@@ -129,9 +129,9 @@ Galaxy Master is the operational command center behind *Le Site des Planètes* �
 ### Prerequisites
 
 - **Node.js** ≥ 20
-- **Docker** (required for local Supabase)
+- **Docker** (required for local Supabase stack)
 - **Supabase CLI** — `npm install -g supabase`
-- A Supabase project with **Google OAuth** configured (see below)
+- A Supabase project (cloud) with **Google OAuth** configured — see [Google OAuth Setup](#google-oauth-setup) below
 
 ### 1. Clone & Install
 
@@ -147,38 +147,34 @@ npm install
 cp .env.example .env.local
 ```
 
-Edit `.env.local` — see [Environment Variables](#environment-variables) for details.
+Fill in `.env.local` with your Supabase project credentials — see [Environment Variables](#environment-variables) for the full reference.
 
 ### 3. Start Local Supabase
 
 ```bash
-npm run db:start    # starts local Supabase stack via Docker
-npm run db:migrate  # applies all migrations in order
+npm run db:start    # starts local Supabase stack via Docker (Studio → http://localhost:54323)
+supabase db reset   # applies all migrations to the local DB from scratch
 ```
 
-Supabase Studio is available at `http://localhost:54323` once started.
+> `npm run db:migrate` (`supabase db push`) targets the **remote** project — use `supabase db reset` for local development.
 
-### 4. Seed Initial Data *(optional)*
-
-```bash
-supabase db reset   # reset + re-run all migrations (includes seed.sql if present)
-```
-
-### 5. Run the Dev Server
+### 4. Run the Dev Server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Sign in with a Google account matching `ALLOWED_EMAIL_DOMAIN` (or any Google account if that env var is unset).
+Open [http://localhost:3000](http://localhost:3000) — you will be redirected to the login page.
 
-### 6. Set Your Account as Admin
+### 5. Sign In & Set Yourself as Admin
 
-After first login, your profile is created with role `observer` by default. Promote yourself via Supabase Studio or SQL:
+Sign in with your Google account. On first login, your profile is automatically created with role `observer`. Promote yourself to admin via Supabase Studio (`http://localhost:54323`) or SQL:
 
 ```sql
 update profiles set role = 'admin' where email = 'you@eleven-labs.com';
 ```
+
+Refresh the app — you now have full admin access.
 
 ---
 
@@ -195,10 +191,31 @@ update profiles set role = 'admin' where email = 'you@eleven-labs.com';
 
 ### Google OAuth Setup
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials
-2. Create an OAuth 2.0 Client ID (Web application)
-3. Add authorized redirect URI: `https://<your-supabase-ref>.supabase.co/auth/v1/callback`
-4. Copy Client ID and Client Secret into your Supabase project → Authentication → Providers → Google
+OAuth goes through two systems: **Google Cloud Console** (issues the token) and **Supabase Dashboard** (acts as the OAuth broker and redirects back to the app). Both must be configured.
+
+#### Step 1 — Google Cloud Console
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com) → **APIs & Services** → **Credentials**
+2. Create an **OAuth 2.0 Client ID** (type: Web application)
+3. Under **Authorized redirect URIs**, add:
+   ```
+   https://<your-supabase-ref>.supabase.co/auth/v1/callback
+   ```
+4. Copy the **Client ID** and **Client Secret** — you'll need them in the next step
+
+#### Step 2 — Supabase Dashboard
+
+1. Go to your Supabase project → **Authentication** → **Providers** → **Google**
+2. Enable Google provider, paste your **Client ID** and **Client Secret**
+3. Go to **Authentication** → **URL Configuration**
+4. Set **Site URL** to your production URL (or `http://localhost:3000` for local-only use)
+5. Under **Redirect URLs**, add both:
+   ```
+   http://localhost:3000/auth/callback
+   https://<your-production-domain>/auth/callback
+   ```
+
+> Without step 5, Supabase will refuse to redirect back to the app after Google login and you will see a `redirect_uri_mismatch` error.
 
 ---
 
@@ -250,8 +267,8 @@ The `current_user_role()` PG function (security definer) is used inside policies
 ### Migrations
 
 ```bash
-npm run db:migrate   # push pending migrations (supabase db push)
-supabase db reset    # full reset — drops and re-applies everything (local only)
+supabase db reset    # full reset — drops and re-applies all migrations locally (local only)
+npm run db:migrate   # push pending migrations to the remote Supabase project (production)
 npm run db:studio    # open Supabase Studio at localhost:54323
 ```
 
@@ -590,8 +607,8 @@ npm run lint         # ESLint check
 # Database (local Supabase — requires Docker)
 npm run db:start     # Start local Supabase stack
 npm run db:stop      # Stop local Supabase stack
-npm run db:reset     # Drop all tables, re-apply all migrations from scratch
-npm run db:migrate   # Push pending migrations to local Supabase
+supabase db reset    # Drop and re-apply all migrations locally (use this for local dev)
+npm run db:migrate   # Push pending migrations to the remote Supabase project (production)
 npm run db:studio    # Open Supabase Studio UI at http://localhost:54323
 ```
 
