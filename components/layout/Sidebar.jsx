@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 
 const mainNav = [
   { href: '/',               icon: 'dashboard',      label: 'Dashboard' },
@@ -26,6 +27,8 @@ const configNav = [
 
 export default function Sidebar({ role, collapsed = false, onClose }) {
   const pathname = usePathname()
+  const inConfig = pathname.startsWith('/config')
+  const [configOpen, setConfigOpen] = useState(inConfig)
 
   const isActive = (href) => {
     if (href === '/') return pathname === '/'
@@ -105,20 +108,63 @@ export default function Sidebar({ role, collapsed = false, onClose }) {
           <NavItem key={href} href={href} icon={icon} label={label} />
         ))}
 
-        {/* Config section — admin only */}
+        {/* Config section — admin only, collapsible */}
         {role === 'admin' && (
           <nav aria-label="Configuration">
-            {!collapsed && (
-              <div className="pt-6 pb-2 px-4">
-                <p aria-hidden="true" style={{ fontFamily: 'var(--font-label)', fontSize: '0.6rem', color: 'var(--color-on-surface-variant)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                  Configuration
-                </p>
-              </div>
+            <div aria-hidden="true" style={{ height: '1px', margin: '0.75rem 0.5rem', background: 'color-mix(in srgb, var(--color-on-surface) 8%, transparent)' }} />
+
+            {collapsed ? (
+              /* Collapsed: single icon linking to first config page */
+              <Link href="/config/planetes"
+                    aria-label="Configuration"
+                    className={inConfig ? 'nav-item-active' : 'nav-item'}
+                    style={{ justifyContent: 'center', padding: '0.55rem 0' }}>
+                <span aria-hidden="true" className="material-symbols-outlined">tune</span>
+              </Link>
+            ) : (
+              <>
+                {/* Toggle button */}
+                <button
+                  onClick={() => setConfigOpen(v => !v)}
+                  aria-expanded={configOpen}
+                  aria-controls="config-subnav"
+                  className="nav-item w-full text-left"
+                  style={{ justifyContent: 'space-between' }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <span aria-hidden="true" className="material-symbols-outlined">tune</span>
+                    Configuration
+                  </span>
+                  <span aria-hidden="true" className="material-symbols-outlined"
+                        style={{ fontSize: '1rem', color: 'var(--color-on-surface-variant)',
+                                 transform: configOpen ? 'rotate(180deg)' : 'none',
+                                 transition: 'transform 0.2s ease' }}>
+                    expand_more
+                  </span>
+                </button>
+
+                {/* Sub-items */}
+                <div id="config-subnav"
+                     style={{
+                       overflow: 'hidden',
+                       maxHeight: configOpen ? `${configNav.length * 44}px` : '0',
+                       transition: 'max-height 0.25s ease',
+                     }}>
+                  {configNav.map(({ href, icon, label }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      aria-current={isActive(href) ? 'page' : undefined}
+                      className={isActive(href) ? 'nav-item-active' : 'nav-item'}
+                      style={{ paddingLeft: '2.5rem' }}
+                    >
+                      <span aria-hidden="true" className="material-symbols-outlined">{icon}</span>
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              </>
             )}
-            {collapsed && <div aria-hidden="true" style={{ height: '1px', margin: '0.75rem 0.5rem', background: 'rgb(255 255 255 / 0.06)' }} />}
-            {configNav.map(({ href, icon, label }) => (
-              <NavItem key={href} href={href} icon={icon} label={label} />
-            ))}
           </nav>
         )}
       </nav>
