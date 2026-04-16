@@ -50,7 +50,7 @@ export default async function EngagementDetailPage({ params }) {
         <Link href="/engagements"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-on-surface-variant)', fontSize: '0.8rem', fontFamily: 'var(--font-label)', textDecoration: 'none' }}>
           <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>arrow_back</span>
-          Engagements
+          Events
         </Link>
         {isAdmin && (
           <Link href={`/engagements/${id}/edit`} className="btn-ghost"

@@ -9,14 +9,14 @@ export default function EngagementActions({ id, name }) {
   const [loading, setLoading] = useState(false)
 
   async function del() {
-    if (!confirm(`Supprimer l'événement "${name}" ?`)) return
+    if (!confirm(`Supprimer l'event "${name}" ?`)) return
     setLoading(true)
     const res = await fetch(`/api/engagements/${id}`, { method: 'DELETE' })
     if (!res.ok) {
       const d = await res.json().catch(() => ({}))
       toast.error(d.error ?? 'Erreur lors de la suppression.')
     } else {
-      toast.success(`Événement « ${name} » supprimé.`)
+      toast.success(`Event « ${name} » supprimé.`)
     }
     router.refresh()
     setLoading(false)

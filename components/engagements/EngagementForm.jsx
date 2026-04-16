@@ -75,7 +75,7 @@ export default function EngagementForm({ event, eventTypes }) {
       {error && <p style={{ color: 'var(--color-error, #f87171)', fontSize: '0.8rem', fontFamily: 'var(--font-label)' }}>{error}</p>}
       <div className="flex gap-3 pt-2">
         <button type="submit" disabled={loading} className="btn-primary">
-          {loading ? 'Enregistrement…' : isEdit ? 'Enregistrer' : 'Créer l\'événement'}
+          {loading ? 'Enregistrement…' : isEdit ? 'Enregistrer' : "Créer l'event"}
         </button>
         <button type="button" onClick={() => router.back()} className="btn-ghost">Annuler</button>
       </div>

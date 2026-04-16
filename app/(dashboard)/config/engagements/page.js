@@ -23,7 +23,7 @@ export default async function ConfigEngagementsPage() {
             Configuration
           </p>
           <h1 style={{ fontFamily: 'var(--font-headline)', fontSize: '2rem', fontWeight: 800, color: 'var(--color-on-surface)', lineHeight: 1.1 }}>
-            Types d&apos;événement
+            Types d&apos;event
           </h1>
         </div>
         {isAdmin && (

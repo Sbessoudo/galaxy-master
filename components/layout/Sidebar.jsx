@@ -10,7 +10,7 @@ const mainNav = [
   { href: '/astronautes',    icon: 'group',          label: 'Astronautes' },
   { href: '/affectation',    icon: 'casino',         label: 'Roue des planètes' },
   { href: '/contributions',  icon: 'rocket_launch',  label: 'Contributions' },
-  { href: '/engagements',    icon: 'event',          label: 'Engagements' },
+  { href: '/engagements',    icon: 'event',          label: 'Events' },
   { href: '/trophees',       icon: 'emoji_events',   label: 'Trophées' },
 ]
 

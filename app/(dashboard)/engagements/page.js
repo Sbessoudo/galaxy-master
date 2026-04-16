@@ -85,7 +85,7 @@ export default async function EngagementsPage() {
       <div className="flex items-start justify-between mb-8">
         <div>
           <h1 style={{ fontFamily: 'var(--font-headline)', fontSize: '2rem', fontWeight: 800, color: 'var(--color-on-surface)', lineHeight: 1.1 }}>
-            Engagements
+            Events
           </h1>
           <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.72rem', color: 'var(--color-on-surface-variant)', marginTop: '0.4rem' }}>
             Astronaute engagé = présent à ≥ 50 % des events de la saison
@@ -246,7 +246,7 @@ export default async function EngagementsPage() {
             <div className="p-8 text-center">
               <span className="material-symbols-outlined mb-2" style={{ color: 'var(--color-secondary)', fontSize: '2rem', display: 'block' }}>event</span>
               <p style={{ fontFamily: 'var(--font-label)', color: 'var(--color-on-surface-variant)', fontSize: '0.8rem' }}>
-                Aucun événement
+                Aucun event
               </p>
               {isAdmin && (
                 <Link href="/engagements/new" className="btn-primary" style={{ display: 'inline-flex', marginTop: '0.75rem' }}>
