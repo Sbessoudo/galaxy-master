@@ -34,20 +34,22 @@ export default function PlaneteEditForm({ planete }) {
     if (!file) return
     setUploading(true)
     setError(null)
-
-    const fd = new FormData()
-    fd.append('file', file)
-
-    const res = await fetch(`/api/planetes/${planete.id}/upload`, { method: 'POST', body: fd })
-    const data = await res.json()
-
-    if (res.ok) {
-      setPhotoUrl(data.photo_url)
-      router.refresh()
-    } else {
-      setError(data.error)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await fetch(`/api/planetes/${planete.id}/upload`, { method: 'POST', body: fd })
+      const data = await res.json()
+      if (res.ok) {
+        setPhotoUrl(data.photo_url)
+        router.refresh()
+      } else {
+        setError(data.error)
+      }
+    } catch {
+      setError('Erreur réseau. Réessaie.')
+    } finally {
+      setUploading(false)
     }
-    setUploading(false)
   }
 
   async function save(e) {
@@ -108,13 +110,22 @@ export default function PlaneteEditForm({ planete }) {
             {photoUrl && (
               <button type="button"
                       onClick={async () => {
-                        await fetch(`/api/planetes/${planete.id}`, {
-                          method: 'PATCH',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ photo_url: null }),
-                        })
-                        setPhotoUrl(null)
-                        router.refresh()
+                        try {
+                          const res = await fetch(`/api/planetes/${planete.id}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ photo_url: null }),
+                          })
+                          if (res.ok) {
+                            setPhotoUrl(null)
+                            router.refresh()
+                          } else {
+                            const d = await res.json()
+                            setError(d.error || 'Erreur lors de la suppression.')
+                          }
+                        } catch {
+                          setError('Erreur réseau. Réessaie.')
+                        }
                       }}
                       style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', fontFamily: 'var(--font-label)', fontSize: '0.65rem', marginTop: '0.25rem', padding: 0 }}>
                 Supprimer l&apos;image

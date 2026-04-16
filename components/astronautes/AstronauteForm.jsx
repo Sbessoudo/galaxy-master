@@ -30,18 +30,23 @@ export default function AstronauteForm({ astronaute, planetes }) {
     if (!file) return
     setUploadError(null)
     setUploading(true)
-    const fd = new FormData()
-    fd.append('file', file)
-    const res = await fetch(`/api/astronautes/${astronaute.id}/upload`, { method: 'POST', body: fd })
-    const data = await res.json()
-    if (!res.ok) {
-      setUploadError(data.error)
-    } else {
-      setPhotoUrl(data.photo_url)
-      toast.success('Photo mise à jour.')
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await fetch(`/api/astronautes/${astronaute.id}/upload`, { method: 'POST', body: fd })
+      const data = await res.json()
+      if (!res.ok) {
+        setUploadError(data.error)
+      } else {
+        setPhotoUrl(data.photo_url)
+        toast.success('Photo mise à jour.')
+      }
+    } catch {
+      setUploadError('Erreur réseau. Réessaie.')
+    } finally {
+      setUploading(false)
+      e.target.value = ''
     }
-    setUploading(false)
-    e.target.value = ''
   }
 
   async function submit(e) {

@@ -6,8 +6,14 @@ export const dynamic = 'force-dynamic'
 
 export default async function ConfigEngagementsPage() {
   const supabase = await createClient()
-  const { data: types } = await supabase
-    .from('event_types').select('*').order('name')
+  const [{ data: types }, { data: { user } }] = await Promise.all([
+    supabase.from('event_types').select('*').order('name'),
+    supabase.auth.getUser(),
+  ])
+  const { data: profile } = user
+    ? await supabase.from('profiles').select('role').eq('id', user.id).single()
+    : { data: null }
+  const isAdmin = profile?.role === 'admin'
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -20,10 +26,12 @@ export default async function ConfigEngagementsPage() {
             Types d&apos;événement
           </h1>
         </div>
-        <Link href="/config/engagements/new" className="btn-primary">
-          <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>add</span>
-          Nouveau type
-        </Link>
+        {isAdmin && (
+          <Link href="/config/engagements/new" className="btn-primary">
+            <span className="material-symbols-outlined" style={{ fontSize: '1rem' }}>add</span>
+            Nouveau type
+          </Link>
+        )}
       </div>
 
       <div className="rounded-xl overflow-hidden" style={{ background: 'var(--color-surface-container)' }}>
@@ -46,11 +54,13 @@ export default async function ConfigEngagementsPage() {
                 <p style={{ fontFamily: 'var(--font-label)', fontSize: '0.65rem', color: 'var(--color-on-surface-variant)' }}>{t.description}</p>
               )}
             </div>
-            <Link href={`/config/engagements/${t.id}`} className="btn-ghost"
-                  style={{ padding: '0.3rem 0.6rem', fontSize: '0.7rem', flexShrink: 0 }}>
-              <span className="material-symbols-outlined" style={{ fontSize: '0.85rem' }}>edit</span>
-            </Link>
-            <EventTypeActions id={t.id} name={t.name} />
+            {isAdmin && (
+              <Link href={`/config/engagements/${t.id}`} className="btn-ghost"
+                    style={{ padding: '0.3rem 0.6rem', fontSize: '0.7rem', flexShrink: 0 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: '0.85rem' }}>edit</span>
+              </Link>
+            )}
+            {isAdmin && <EventTypeActions id={t.id} name={t.name} />}
           </div>
         ))}
       </div>
