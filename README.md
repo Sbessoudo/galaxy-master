@@ -199,7 +199,7 @@ OAuth goes through two systems: **Google Cloud Console** (issues the token) and 
 2. Create an **OAuth 2.0 Client ID** (type: Web application)
 3. Under **Authorized redirect URIs**, add:
    ```
-   https://<your-supabase-ref>.supabase.co/auth/v1/callback
+   https://bfatmluhskjlsemylstf.supabase.co/auth/v1/callback
    ```
 4. Copy the **Client ID** and **Client Secret** — you'll need them in the next step
 
