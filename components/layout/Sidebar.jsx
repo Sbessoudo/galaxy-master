@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const mainNav = [
   { href: '/',               icon: 'dashboard',      label: 'Dashboard' },
@@ -25,32 +25,33 @@ const configNav = [
   { href: '/config/webhooks',       icon: 'webhook',        label: 'Webhooks' },
 ]
 
+// Outside Sidebar to avoid remount on every render
+function NavItem({ href, icon, label, collapsed, pathname }) {
+  const active = href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href + '/')
+  return (
+    <Link
+      href={href}
+      aria-label={collapsed ? label : undefined}
+      aria-current={active ? 'page' : undefined}
+      className={active ? 'nav-item-active' : 'nav-item'}
+      style={collapsed ? { justifyContent: 'center', padding: '0.55rem 0' } : {}}
+    >
+      <span aria-hidden="true" className="material-symbols-outlined">{icon}</span>
+      {!collapsed && label}
+    </Link>
+  )
+}
+
 export default function Sidebar({ role, collapsed = false, onClose }) {
   const pathname = usePathname()
   const inConfig = pathname.startsWith('/config')
   const [configOpen, setConfigOpen] = useState(inConfig)
 
-  const isActive = (href) => {
-    if (href === '/') return pathname === '/'
-    return pathname === href || pathname.startsWith(href + '/')
-  }
-
-  // Nav item: icon-only when collapsed, icon+label when expanded
-  const NavItem = ({ href, icon, label }) => {
-    const active = isActive(href)
-    return (
-      <Link
-        href={href}
-        aria-label={collapsed ? label : undefined}
-        aria-current={active ? 'page' : undefined}
-        className={active ? 'nav-item-active' : 'nav-item'}
-        style={collapsed ? { justifyContent: 'center', padding: '0.55rem 0' } : {}}
-      >
-        <span aria-hidden="true" className="material-symbols-outlined">{icon}</span>
-        {!collapsed && label}
-      </Link>
-    )
-  }
+  // Auto-expand when navigating into a config route
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (inConfig) setConfigOpen(true)
+  }, [inConfig])
 
   return (
     <aside aria-label="Menu principal"
@@ -105,12 +106,12 @@ export default function Sidebar({ role, collapsed = false, onClose }) {
       {/* Main nav */}
       <nav aria-label="Navigation principale" className="flex-1 space-y-0.5 px-2">
         {mainNav.map(({ href, icon, label }) => (
-          <NavItem key={href} href={href} icon={icon} label={label} />
+          <NavItem key={href} href={href} icon={icon} label={label} collapsed={collapsed} pathname={pathname} />
         ))}
 
         {/* Config section — admin only, collapsible */}
         {role === 'admin' && (
-          <nav aria-label="Configuration">
+          <div>
             <div aria-hidden="true" style={{ height: '1px', margin: '0.75rem 0.5rem', background: 'color-mix(in srgb, var(--color-on-surface) 8%, transparent)' }} />
 
             {collapsed ? (
@@ -145,31 +146,31 @@ export default function Sidebar({ role, collapsed = false, onClose }) {
 
                 {/* Sub-items */}
                 <div id="config-subnav"
+                     role="region"
+                     aria-label="Configuration"
                      style={{
                        overflow: 'hidden',
-                       maxHeight: configOpen ? `${configNav.length * 44}px` : '0',
+                       maxHeight: configOpen ? '9999px' : '0',
                        transition: 'max-height 0.25s ease',
                      }}>
                   {configNav.map(({ href, icon, label }) => (
-                    <Link
+                    <NavItem
                       key={href}
                       href={href}
-                      aria-current={isActive(href) ? 'page' : undefined}
-                      className={isActive(href) ? 'nav-item-active' : 'nav-item'}
-                      style={{ paddingLeft: '2.5rem' }}
-                    >
-                      <span aria-hidden="true" className="material-symbols-outlined">{icon}</span>
-                      {label}
-                    </Link>
+                      icon={icon}
+                      label={label}
+                      collapsed={false}
+                      pathname={pathname}
+                    />
                   ))}
                 </div>
               </>
             )}
-          </nav>
+          </div>
         )}
       </nav>
 
-      {/* Bottom — settings + logout + collapse toggle */}
+      {/* Bottom — logout */}
       <div className="px-2 pb-4 pt-4" style={{ borderTop: '1px solid var(--color-outline-variant)' }}>
         <form action="/auth/signout" method="post">
           <button type="submit"
@@ -180,7 +181,6 @@ export default function Sidebar({ role, collapsed = false, onClose }) {
             {!collapsed && 'Déconnexion'}
           </button>
         </form>
-
       </div>
     </aside>
   )
