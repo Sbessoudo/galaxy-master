@@ -32,10 +32,14 @@ export default function EngagementForm({ event, eventTypes }) {
       }
     )
 
-    if (!res.ok) { const d = await res.json(); setError(d.error); setLoading(false); return }
+    if (!res.ok) {
+      const d = await res.json().catch(() => ({}))
+      setError(d.error ?? 'Une erreur est survenue.')
+      setLoading(false)
+      return
+    }
     const saved = await res.json()
     router.push(`/engagements/${saved.id}`)
-    router.refresh()
   }
 
   const inputStyle = {

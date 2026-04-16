@@ -29,11 +29,11 @@ export default async function EngagementsPage() {
   ])
 
   // Events for active season (or all if no season)
-  const eventsQuery = supabase
+  let eventsQuery = supabase
     .from('events')
     .select('id, name, date, description, season_id, event_types(name), event_participants(count)')
     .order('date', { ascending: false })
-  if (activeSeason) eventsQuery.eq('season_id', activeSeason.id)
+  if (activeSeason) eventsQuery = eventsQuery.eq('season_id', activeSeason.id)
   const { data: events } = await eventsQuery
 
   // Season events only (for rate calculation)

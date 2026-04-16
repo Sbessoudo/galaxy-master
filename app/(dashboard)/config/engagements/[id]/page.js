@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import EventTypeForm from '@/components/engagements/EventTypeForm'
 
@@ -8,6 +8,11 @@ export const dynamic = 'force-dynamic'
 export default async function EditEventTypePage({ params }) {
   const { id } = await params
   const supabase = await createClient()
+  const { data: { user } = {} } = await supabase.auth.getUser()
+  const { data: profile } = user
+    ? await supabase.from('profiles').select('role').eq('id', user.id).single()
+    : { data: null }
+  if (profile?.role !== 'admin') redirect('/config/engagements')
 
   const { data: type } = await supabase
     .from('event_types')

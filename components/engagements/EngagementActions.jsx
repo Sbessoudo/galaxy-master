@@ -17,8 +17,8 @@ export default function EngagementActions({ id, name }) {
       toast.error(d.error ?? 'Erreur lors de la suppression.')
     } else {
       toast.success(`Event « ${name} » supprimé.`)
+      router.refresh()
     }
-    router.refresh()
     setLoading(false)
   }
 
